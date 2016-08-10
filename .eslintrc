@@ -7,14 +7,7 @@
   "env": {
     "es6": true,
     "browser": true,
-    "node": true,
-    "mocha": true,
-    "phantomjs": true
-  },
-  "globals": {
-    "require": true,
-    "define": true,
-    "module": true
+    "node": true
   },
   "rules": {
     ////////// Errors //////////
