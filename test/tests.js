@@ -8144,6 +8144,18 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _type = require('./type');
+
+Object.keys(_type).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function get() {
+      return _type[key];
+    }
+  });
+});
+
 var _tostring = require('./tostring');
 
 Object.defineProperty(exports, 'toString', {
@@ -8155,7 +8167,7 @@ Object.defineProperty(exports, 'toString', {
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-},{"./tostring":42}],42:[function(require,module,exports){
+},{"./tostring":42,"./type":43}],42:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -8187,9 +8199,158 @@ module.exports = exports["default"];
 },{}],43:[function(require,module,exports){
 'use strict';
 
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.isArray = undefined;
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; }; /**
+                                                                                                                                                                                                                                                   * Import dependencies
+                                                                                                                                                                                                                                                   */
+
+
+exports.isBoolean = isBoolean;
+exports.isDate = isDate;
+exports.isError = isError;
+exports.isFunction = isFunction;
+exports.isNull = isNull;
+exports.isNumber = isNumber;
+exports.isObject = isObject;
+exports.isRegExp = isRegExp;
+exports.isString = isString;
+exports.isUndefined = isUndefined;
+
+var _index = require('./index');
+
+/**
+ * Is the obj an array?
+ *
+ * @param {*} obj
+ * @return {Boolean}
+ * @api public
+ */
+var isArray = exports.isArray = Array.isArray || function isArray(obj) {
+  return (0, _index.toString)(obj) === 'Array';
+};
+
+/**
+ * Is the obj a boolean?
+ *
+ * @param {*} obj
+ * @return {Boolean}
+ * @api public
+ */
+function isBoolean(obj) {
+  return (0, _index.toString)(obj) === 'Boolean';
+}
+
+/**
+ * Is the obj a date?
+ *
+ * @param {*} obj
+ * @return {Boolean}
+ * @api public
+ */
+function isDate(obj) {
+  return (0, _index.toString)(obj) === 'Date';
+}
+
+/**
+ * Is the obj an error?
+ *
+ * @param {*} obj
+ * @return {Boolean}
+ * @api public
+ */
+function isError(obj) {
+  return (0, _index.toString)(obj) === 'Error' || obj instanceof Error;
+}
+
+/**
+ * Is the obj a function?
+ *
+ * @param {*} obj
+ * @return {Boolean}
+ * @api public
+ */
+function isFunction(obj) {
+  return (0, _index.toString)(obj) === 'Function';
+}
+
+/**
+ * Is the obj null?
+ *
+ * @param {*} obj
+ * @return {Boolean}
+ * @api public
+ */
+function isNull(obj) {
+  return obj === null;
+}
+
+/**
+ * Is the obj a number?
+ *
+ * @param {*} obj
+ * @return {Boolean}
+ * @api public
+ */
+function isNumber(obj) {
+  return (0, _index.toString)(obj) === 'Number';
+}
+
+/**
+ * Is the obj an object?
+ *
+ * @param {*} obj
+ * @return {Boolean}
+ * @api public
+ */
+function isObject(obj) {
+  return (typeof obj === 'undefined' ? 'undefined' : _typeof(obj)) === 'object' && !!obj;
+}
+
+/**
+ * Is the obj a regular expression?
+ *
+ * @param {*} obj
+ * @return {Boolean}
+ * @api public
+ */
+function isRegExp(obj) {
+  return (0, _index.toString)(obj) === 'RegExp';
+}
+
+/**
+ * Is the obj a string?
+ *
+ * @param {*} obj
+ * @return {Boolean}
+ * @api public
+ */
+function isString(obj) {
+  return (0, _index.toString)(obj) === 'String';
+}
+
+/**
+ * Is the obj undefined?
+ *
+ * @param {*} obj
+ * @return {Boolean}
+ * @api public
+ */
+function isUndefined(obj) {
+  return obj === void 0;
+}
+
+},{"./index":41}],44:[function(require,module,exports){
+'use strict';
+
 require('./lang/tostring');
 
-},{"./lang/tostring":44}],44:[function(require,module,exports){
+require('./lang/type');
+
+},{"./lang/tostring":45,"./lang/type":46}],45:[function(require,module,exports){
 'use strict';
 
 var _chai = require('chai');
@@ -8199,7 +8360,7 @@ var _lang = require('../../../src/lang');
 /* eslint-disable max-len, no-unused-expressions */
 
 describe('lang/toString', function () {
-    it('should return the internal [[Class]] of an object without the cruft be default', function () {
+    it('should return the internal [[Class]] of an object without the cruft by default', function () {
         (0, _chai.expect)((0, _lang.toString)('foo')).to.equal('String');
         (0, _chai.expect)((0, _lang.toString)(123)).to.equal('Number');
         (0, _chai.expect)((0, _lang.toString)(true)).to.equal('Boolean');
@@ -8216,4 +8377,73 @@ describe('lang/toString', function () {
     });
 });
 
-},{"../../../src/lang":41,"chai":5}]},{},[43]);
+},{"../../../src/lang":41,"chai":5}],46:[function(require,module,exports){
+'use strict';
+
+var _chai = require('chai');
+
+var _lang = require('../../../src/lang');
+
+/* eslint-disable max-len, no-unused-expressions, no-new-wrappers */
+
+describe('lang/type', function () {
+    it('isArray', function () {
+        (0, _chai.expect)((0, _lang.isArray)([])).to.equal(true);
+    });
+
+    it('isBoolean', function () {
+        (0, _chai.expect)((0, _lang.isBoolean)(true)).to.equal(true);
+        (0, _chai.expect)((0, _lang.isBoolean)(false)).to.equal(true);
+        (0, _chai.expect)((0, _lang.isBoolean)(new Boolean(false))).to.equal(true);
+    });
+
+    it('isDate', function () {
+        (0, _chai.expect)((0, _lang.isDate)(new Date())).to.equal(true);
+    });
+
+    it('isError', function () {
+        (0, _chai.expect)((0, _lang.isError)(new Error())).to.equal(true);
+    });
+
+    it('isFunction', function () {
+        // eslint-disable-next-line prefer-arrow-callback
+        (0, _chai.expect)((0, _lang.isFunction)(function foo() {})).to.equal(true);
+        (0, _chai.expect)((0, _lang.isFunction)(function () {})).to.equal(true);
+    });
+
+    it('isNull', function () {
+        (0, _chai.expect)((0, _lang.isNull)(null)).to.equal(true);
+    });
+
+    it('isNumber', function () {
+        (0, _chai.expect)((0, _lang.isNumber)(123)).to.equal(true);
+        (0, _chai.expect)((0, _lang.isNumber)(0x45)).to.equal(true);
+        (0, _chai.expect)((0, _lang.isNumber)(0.314e2)).to.equal(true);
+        (0, _chai.expect)((0, _lang.isNumber)(new Number())).to.equal(true);
+        (0, _chai.expect)((0, _lang.isNumber)(Infinity)).to.equal(true);
+        (0, _chai.expect)((0, _lang.isNumber)(Number.POSITIVE_INFINITY)).to.equal(true);
+        (0, _chai.expect)((0, _lang.isNumber)(Number.NEGATIVE_INFINITY)).to.equal(true);
+    });
+
+    it('isObject', function () {
+        (0, _chai.expect)((0, _lang.isObject)({})).to.equal(true);
+        (0, _chai.expect)((0, _lang.isObject)(Object.create(null))).to.equal(true);
+    });
+
+    it('isRegExp', function () {
+        (0, _chai.expect)((0, _lang.isRegExp)(/foo/)).to.equal(true);
+        (0, _chai.expect)((0, _lang.isRegExp)(new RegExp('foo'))).to.equal(true);
+    });
+
+    it('isString', function () {
+        (0, _chai.expect)((0, _lang.isString)('foo')).to.equal(true);
+        (0, _chai.expect)((0, _lang.isString)(new String('foo'))).to.equal(true);
+    });
+
+    it('isUndefined', function () {
+        (0, _chai.expect)((0, _lang.isUndefined)(undefined)).to.equal(true);
+        (0, _chai.expect)((0, _lang.isUndefined)(void 0)).to.equal(true);
+    });
+});
+
+},{"../../../src/lang":41,"chai":5}]},{},[44]);
