@@ -4,7 +4,7 @@ import { expect } from 'chai';
 import { toString } from '../../../src/lang';
 
 describe('lang/toString', () => {
-    it('should return the internal [[Class]] of an object without the cruft be default', () => {
+    it('should return the internal [[Class]] of an object without the cruft by default', () => {
         expect(toString('foo')).to.equal('String');
         expect(toString(123)).to.equal('Number');
         expect(toString(true)).to.equal('Boolean');
