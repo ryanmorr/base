@@ -1,4 +1,4 @@
-/* eslint-disable max-len, no-unused-expressions, no-new-wrappers */
+/* eslint-disable no-new-wrappers */
 
 import { expect } from 'chai';
 import { isArray, isBoolean, isDate, isError, isFunction, isNull, isNumber, isObject, isRegExp, isString, isUndefined } from '../../../src/lang';

@@ -1,5 +1,3 @@
-/* eslint-disable max-len, no-unused-expressions */
-
 import { expect } from 'chai';
 import { toString } from '../../../src/lang';
 

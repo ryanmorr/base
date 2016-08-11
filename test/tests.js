@@ -8357,8 +8357,6 @@ var _chai = require('chai');
 
 var _lang = require('../../../src/lang');
 
-/* eslint-disable max-len, no-unused-expressions */
-
 describe('lang/toString', function () {
     it('should return the internal [[Class]] of an object without the cruft by default', function () {
         (0, _chai.expect)((0, _lang.toString)('foo')).to.equal('String');
@@ -8384,7 +8382,7 @@ var _chai = require('chai');
 
 var _lang = require('../../../src/lang');
 
-/* eslint-disable max-len, no-unused-expressions, no-new-wrappers */
+/* eslint-disable no-new-wrappers */
 
 describe('lang/type', function () {
     it('isArray', function () {

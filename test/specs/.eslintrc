@@ -1,0 +1,8 @@
+{
+  "rules": {
+    // specify the maximum length of a line in your program
+    "max-len": 0,
+    // disallow usage of expressions in statement position
+    "no-unused-expressions": 0
+  }
+}
