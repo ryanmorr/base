@@ -3,6 +3,8 @@
     // specify the maximum length of a line in your program
     "max-len": 0,
     // disallow usage of expressions in statement position
-    "no-unused-expressions": 0
+    "no-unused-expressions": 0,
+    // suggest using arrow functions as callbacks
+    prefer-arrow-callback: 0
   }
 }
