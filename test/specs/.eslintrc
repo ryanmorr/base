@@ -1,5 +1,7 @@
 {
   "rules": {
+    // require function expressions to have a name
+    "func-names": 0,
     // specify the maximum length of a line in your program
     "max-len": 0,
     // disallow usage of expressions in statement position
