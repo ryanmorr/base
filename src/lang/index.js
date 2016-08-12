@@ -4,3 +4,4 @@
  */
 export * from './type';
 export { default as toString } from './tostring';
+export { default as hasOwnProperty } from './hasownproperty';

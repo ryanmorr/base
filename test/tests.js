@@ -8138,6 +8138,33 @@ Library.prototype.test = function(obj, type) {
 };
 
 },{}],41:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = hasOwnProperty;
+/**
+ * Use an external `hasOwnProperty` method to
+ * safequard against conflicting property names
+ */
+var hasOwnProp = {}.hasOwnProperty;
+
+/**
+ * Determine whether an object has the specified
+ * property as a direct property of that object
+ *
+ * @param {Object} obj
+ * @param {String} name
+ * @return {Boolean}
+ * @api public
+ */
+function hasOwnProperty(obj, name) {
+  return hasOwnProp.call(obj, name);
+}
+module.exports = exports["default"];
+
+},{}],42:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -8165,9 +8192,18 @@ Object.defineProperty(exports, 'toString', {
   }
 });
 
+var _hasownproperty = require('./hasownproperty');
+
+Object.defineProperty(exports, 'hasOwnProperty', {
+  enumerable: true,
+  get: function get() {
+    return _interopRequireDefault(_hasownproperty).default;
+  }
+});
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-},{"./tostring":42,"./type":43}],42:[function(require,module,exports){
+},{"./hasownproperty":41,"./tostring":43,"./type":44}],43:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -8196,7 +8232,7 @@ function toString(obj) {
 }
 module.exports = exports["default"];
 
-},{}],43:[function(require,module,exports){
+},{}],44:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -8340,14 +8376,37 @@ function isUndefined(obj) {
   return obj === void 0;
 }
 
-},{"./index":41}],44:[function(require,module,exports){
+},{"./index":42}],45:[function(require,module,exports){
 'use strict';
 
 require('./lang/tostring');
 
+require('./lang/hasownproperty');
+
 require('./lang/type');
 
-},{"./lang/tostring":45,"./lang/type":46}],45:[function(require,module,exports){
+},{"./lang/hasownproperty":46,"./lang/tostring":47,"./lang/type":48}],46:[function(require,module,exports){
+'use strict';
+
+var _chai = require('chai');
+
+var _lang = require('../../../src/lang');
+
+describe('lang/hasOwnProperty', function () {
+    it('should return true for direct properties', function () {
+        var obj = { foo: 1, bar: 2 };
+        Object.defineProperty(obj, 'baz', { enumerable: false });
+        (0, _chai.expect)((0, _lang.hasOwnProperty)(obj, 'foo')).to.be.true;
+        (0, _chai.expect)((0, _lang.hasOwnProperty)(obj, 'bar')).to.be.true;
+        (0, _chai.expect)((0, _lang.hasOwnProperty)(obj, 'baz')).to.be.true;
+    });
+
+    it('should return false for properties inherited via the prototype chain', function () {
+        (0, _chai.expect)((0, _lang.hasOwnProperty)({}, 'hasOwnProperty')).to.be.false;
+    });
+});
+
+},{"../../../src/lang":42,"chai":5}],47:[function(require,module,exports){
 'use strict';
 
 var _chai = require('chai');
@@ -8372,7 +8431,7 @@ describe('lang/toString', function () {
     });
 });
 
-},{"../../../src/lang":41,"chai":5}],46:[function(require,module,exports){
+},{"../../../src/lang":42,"chai":5}],48:[function(require,module,exports){
 'use strict';
 
 var _chai = require('chai');
@@ -8618,4 +8677,4 @@ describe('lang/type', function () {
     });
 });
 
-},{"../../../src/lang":41,"chai":5}]},{},[44]);
+},{"../../../src/lang":42,"chai":5}]},{},[45]);
