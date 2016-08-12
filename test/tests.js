@@ -8201,9 +8201,42 @@ Object.defineProperty(exports, 'hasOwnProperty', {
   }
 });
 
+var _inherit = require('./inherit');
+
+Object.defineProperty(exports, 'inherit', {
+  enumerable: true,
+  get: function get() {
+    return _interopRequireDefault(_inherit).default;
+  }
+});
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-},{"./hasownproperty":41,"./tostring":43,"./type":44}],43:[function(require,module,exports){
+},{"./hasownproperty":41,"./inherit":43,"./tostring":44,"./type":45}],43:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = inherit;
+/**
+ * Facilitate inheritance by creating a delegate
+ * of a superclass on the prototype of a subclass
+ *
+ * @param {Function} subclass
+ * @param {Function} superclass
+ * @api public
+ */
+function inherit(subclass, superclass) {
+    subclass.prototype = Object.create(superclass.prototype, {
+        constructor: {
+            value: subclass
+        }
+    });
+}
+module.exports = exports["default"];
+
+},{}],44:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -8232,7 +8265,7 @@ function toString(obj) {
 }
 module.exports = exports["default"];
 
-},{}],44:[function(require,module,exports){
+},{}],45:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -8376,16 +8409,18 @@ function isUndefined(obj) {
   return obj === void 0;
 }
 
-},{"./index":42}],45:[function(require,module,exports){
+},{"./index":42}],46:[function(require,module,exports){
 'use strict';
 
 require('./lang/tostring');
 
 require('./lang/hasownproperty');
 
+require('./lang/inherit');
+
 require('./lang/type');
 
-},{"./lang/hasownproperty":46,"./lang/tostring":47,"./lang/type":48}],46:[function(require,module,exports){
+},{"./lang/hasownproperty":47,"./lang/inherit":48,"./lang/tostring":49,"./lang/type":50}],47:[function(require,module,exports){
 'use strict';
 
 var _chai = require('chai');
@@ -8406,7 +8441,37 @@ describe('lang/hasOwnProperty', function () {
     });
 });
 
-},{"../../../src/lang":42,"chai":5}],47:[function(require,module,exports){
+},{"../../../src/lang":42,"chai":5}],48:[function(require,module,exports){
+'use strict';
+
+var _chai = require('chai');
+
+var _lang = require('../../../src/lang');
+
+describe('lang/inherit', function () {
+    it('should be able to inherit the properties of one function\'s prototype to another function\s prototype', function () {
+        function A() {}
+        A.prototype.foo = function () {
+            return 'bar';
+        };
+        function B() {}
+        (0, _lang.inherit)(B, A);
+        var b = new B();
+        (0, _chai.expect)('foo' in b).to.be.true;
+        (0, _chai.expect)(b.foo).to.be.a('function');
+        (0, _chai.expect)(b.foo()).to.equal('bar');
+    });
+
+    it('should set the constructor of the subclass to the constructor function', function () {
+        function A() {}
+        function B() {}
+        (0, _lang.inherit)(B, A);
+        var b = new B();
+        (0, _chai.expect)(b.constructor).to.equal(B);
+    });
+});
+
+},{"../../../src/lang":42,"chai":5}],49:[function(require,module,exports){
 'use strict';
 
 var _chai = require('chai');
@@ -8431,7 +8496,7 @@ describe('lang/toString', function () {
     });
 });
 
-},{"../../../src/lang":42,"chai":5}],48:[function(require,module,exports){
+},{"../../../src/lang":42,"chai":5}],50:[function(require,module,exports){
 'use strict';
 
 var _chai = require('chai');
@@ -8677,4 +8742,4 @@ describe('lang/type', function () {
     });
 });
 
-},{"../../../src/lang":42,"chai":5}]},{},[45]);
+},{"../../../src/lang":42,"chai":5}]},{},[46]);
