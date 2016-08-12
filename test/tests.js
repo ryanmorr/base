@@ -8203,12 +8203,6 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.isArray = undefined;
-
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; }; /**
-                                                                                                                                                                                                                                                   * Import dependencies
-                                                                                                                                                                                                                                                   */
-
-
 exports.isBoolean = isBoolean;
 exports.isDate = isDate;
 exports.isError = isError;
@@ -8239,6 +8233,9 @@ var isArray = exports.isArray = Array.isArray || function isArray(obj) {
  * @param {*} obj
  * @return {Boolean}
  * @api public
+ */
+/**
+ * Import dependencies
  */
 function isBoolean(obj) {
   return (0, _index.toString)(obj) === 'Boolean';
@@ -8307,7 +8304,7 @@ function isNumber(obj) {
  * @api public
  */
 function isObject(obj) {
-  return (typeof obj === 'undefined' ? 'undefined' : _typeof(obj)) === 'object' && !!obj;
+  return (0, _index.toString)(obj) === 'Object';
 }
 
 /**
@@ -8385,62 +8382,239 @@ var _lang = require('../../../src/lang');
 /* eslint-disable no-new-wrappers */
 
 describe('lang/type', function () {
+    var iframe = void 0;
+    var crossFrame = window.crossFrame = {};
+    var instance = new function Foo() {}();
+
+    before(function () {
+        // Create objects from another context
+        iframe = document.createElement('iframe');
+        document.body.appendChild(iframe);
+        var iframeWindow = iframe.contentWindow;
+        var iframeDocument = iframe.contentDocument || iframeWindow.document;
+        iframeDocument.write(['<script>', 'parent.crossFrame.array = [];', 'parent.crossFrame.string = new String("");', 'parent.crossFrame.number = new Number(123);', 'parent.crossFrame.function = (function(){});', 'parent.crossFrame.date = new Date();', 'parent.crossFrame.regexp = /foo/;', 'parent.crossFrame.null = null;', 'parent.crossFrame.boolean = new Boolean(false);', 'parent.crossFrame.undefined = undefined;', 'parent.crossFrame.object = {};', 'parent.crossFrame.error = new Error();', '</script>'].join('\n'));
+        iframeDocument.close();
+    });
+
+    after(function () {
+        // Clean up iframe
+        document.body.removeChild(iframe);
+        iframe = null;
+        delete window.crossFrame;
+    });
+
     it('isArray', function () {
-        (0, _chai.expect)((0, _lang.isArray)([])).to.equal(true);
-    });
-
-    it('isBoolean', function () {
-        (0, _chai.expect)((0, _lang.isBoolean)(true)).to.equal(true);
-        (0, _chai.expect)((0, _lang.isBoolean)(false)).to.equal(true);
-        (0, _chai.expect)((0, _lang.isBoolean)(new Boolean(false))).to.equal(true);
-    });
-
-    it('isDate', function () {
-        (0, _chai.expect)((0, _lang.isDate)(new Date())).to.equal(true);
-    });
-
-    it('isError', function () {
-        (0, _chai.expect)((0, _lang.isError)(new Error())).to.equal(true);
-    });
-
-    it('isFunction', function () {
-        // eslint-disable-next-line prefer-arrow-callback
-        (0, _chai.expect)((0, _lang.isFunction)(function foo() {})).to.equal(true);
-        (0, _chai.expect)((0, _lang.isFunction)(function () {})).to.equal(true);
-    });
-
-    it('isNull', function () {
-        (0, _chai.expect)((0, _lang.isNull)(null)).to.equal(true);
-    });
-
-    it('isNumber', function () {
-        (0, _chai.expect)((0, _lang.isNumber)(123)).to.equal(true);
-        (0, _chai.expect)((0, _lang.isNumber)(0x45)).to.equal(true);
-        (0, _chai.expect)((0, _lang.isNumber)(0.314e2)).to.equal(true);
-        (0, _chai.expect)((0, _lang.isNumber)(new Number())).to.equal(true);
-        (0, _chai.expect)((0, _lang.isNumber)(Infinity)).to.equal(true);
-        (0, _chai.expect)((0, _lang.isNumber)(Number.POSITIVE_INFINITY)).to.equal(true);
-        (0, _chai.expect)((0, _lang.isNumber)(Number.NEGATIVE_INFINITY)).to.equal(true);
-    });
-
-    it('isObject', function () {
-        (0, _chai.expect)((0, _lang.isObject)({})).to.equal(true);
-        (0, _chai.expect)((0, _lang.isObject)(Object.create(null))).to.equal(true);
-    });
-
-    it('isRegExp', function () {
-        (0, _chai.expect)((0, _lang.isRegExp)(/foo/)).to.equal(true);
-        (0, _chai.expect)((0, _lang.isRegExp)(new RegExp('foo'))).to.equal(true);
+        // Should match
+        (0, _chai.expect)((0, _lang.isArray)([])).to.be.true;
+        (0, _chai.expect)((0, _lang.isArray)(crossFrame.array)).to.equal(true, 'support for cross-frame arrays');
+        // Should not match
+        var args = function () {
+            return arguments;
+        }(1, 2, 3);
+        (0, _chai.expect)((0, _lang.isArray)(args)).to.be.false;
+        (0, _chai.expect)((0, _lang.isArray)(document.childNodes)).to.be.false;
+        (0, _chai.expect)((0, _lang.isArray)({})).to.be.false;
+        (0, _chai.expect)((0, _lang.isArray)(true)).to.be.false;
+        (0, _chai.expect)((0, _lang.isArray)('foo')).to.be.false;
+        (0, _chai.expect)((0, _lang.isArray)(function () {})).to.be.false;
+        (0, _chai.expect)((0, _lang.isArray)(123)).to.be.false;
+        (0, _chai.expect)((0, _lang.isArray)(new Date())).to.be.false;
+        (0, _chai.expect)((0, _lang.isArray)(null)).to.be.false;
+        (0, _chai.expect)((0, _lang.isArray)(undefined)).to.be.false;
+        (0, _chai.expect)((0, _lang.isArray)(/foo/)).to.be.false;
+        (0, _chai.expect)((0, _lang.isArray)(new Error())).to.be.false;
+        (0, _chai.expect)((0, _lang.isArray)(instance)).to.be.false;
     });
 
     it('isString', function () {
-        (0, _chai.expect)((0, _lang.isString)('foo')).to.equal(true);
-        (0, _chai.expect)((0, _lang.isString)(new String('foo'))).to.equal(true);
+        // Should match
+        (0, _chai.expect)((0, _lang.isString)('foo')).to.be.true;
+        (0, _chai.expect)((0, _lang.isString)(new String('foo'))).to.be.true;
+        (0, _chai.expect)((0, _lang.isString)(crossFrame.string)).to.equal(true, 'support for cross-frame strings');
+        // Should not match
+        (0, _chai.expect)((0, _lang.isString)([])).to.be.false;
+        (0, _chai.expect)((0, _lang.isString)({})).to.be.false;
+        (0, _chai.expect)((0, _lang.isString)(true)).to.be.false;
+        (0, _chai.expect)((0, _lang.isString)(function () {})).to.be.false;
+        (0, _chai.expect)((0, _lang.isString)(123)).to.be.false;
+        (0, _chai.expect)((0, _lang.isString)(new Date())).to.be.false;
+        (0, _chai.expect)((0, _lang.isString)(null)).to.be.false;
+        (0, _chai.expect)((0, _lang.isString)(undefined)).to.be.false;
+        (0, _chai.expect)((0, _lang.isString)(/foo/)).to.be.false;
+        (0, _chai.expect)((0, _lang.isString)(new Error())).to.be.false;
+        (0, _chai.expect)((0, _lang.isString)(instance)).to.be.false;
+    });
+
+    it('isNumber', function () {
+        // Should match
+        (0, _chai.expect)((0, _lang.isNumber)(123)).to.be.true;
+        (0, _chai.expect)((0, _lang.isNumber)(0x45)).to.be.true;
+        (0, _chai.expect)((0, _lang.isNumber)(0.314e2)).to.be.true;
+        (0, _chai.expect)((0, _lang.isNumber)(new Number())).to.be.true;
+        (0, _chai.expect)((0, _lang.isNumber)(Infinity)).to.be.true;
+        (0, _chai.expect)((0, _lang.isNumber)(Number.POSITIVE_INFINITY)).to.be.true;
+        (0, _chai.expect)((0, _lang.isNumber)(Number.NEGATIVE_INFINITY)).to.be.true;
+        (0, _chai.expect)((0, _lang.isNumber)(crossFrame.number)).to.equal(true, 'support for cross-frame numbers');
+        // Should not match
+        (0, _chai.expect)((0, _lang.isNumber)({})).to.be.false;
+        (0, _chai.expect)((0, _lang.isNumber)(true)).to.be.false;
+        (0, _chai.expect)((0, _lang.isNumber)('foo')).to.be.false;
+        (0, _chai.expect)((0, _lang.isNumber)(function () {})).to.be.false;
+        (0, _chai.expect)((0, _lang.isNumber)(new Date())).to.be.false;
+        (0, _chai.expect)((0, _lang.isNumber)(null)).to.be.false;
+        (0, _chai.expect)((0, _lang.isNumber)(undefined)).to.be.false;
+        (0, _chai.expect)((0, _lang.isNumber)(/foo/)).to.be.false;
+        (0, _chai.expect)((0, _lang.isNumber)(new Error())).to.be.false;
+        (0, _chai.expect)((0, _lang.isNumber)(instance)).to.be.false;
+    });
+
+    it('isBoolean', function () {
+        // Should match
+        (0, _chai.expect)((0, _lang.isBoolean)(true)).to.be.true;
+        (0, _chai.expect)((0, _lang.isBoolean)(false)).to.be.true;
+        (0, _chai.expect)((0, _lang.isBoolean)(new Boolean(false))).to.be.true;
+        (0, _chai.expect)((0, _lang.isBoolean)(crossFrame.boolean)).to.equal(true, 'support for cross-frame booleans');
+        // Should not match
+        (0, _chai.expect)((0, _lang.isBoolean)({})).to.be.false;
+        (0, _chai.expect)((0, _lang.isBoolean)('foo')).to.be.false;
+        (0, _chai.expect)((0, _lang.isBoolean)(function () {})).to.be.false;
+        (0, _chai.expect)((0, _lang.isBoolean)(123)).to.be.false;
+        (0, _chai.expect)((0, _lang.isBoolean)(new Date())).to.be.false;
+        (0, _chai.expect)((0, _lang.isBoolean)(null)).to.be.false;
+        (0, _chai.expect)((0, _lang.isBoolean)(undefined)).to.be.false;
+        (0, _chai.expect)((0, _lang.isBoolean)(/foo/)).to.be.false;
+        (0, _chai.expect)((0, _lang.isBoolean)(new Error())).to.be.false;
+        (0, _chai.expect)((0, _lang.isBoolean)(instance)).to.be.false;
+    });
+
+    it('isDate', function () {
+        // Should match
+        (0, _chai.expect)((0, _lang.isDate)(new Date())).to.be.true;
+        (0, _chai.expect)((0, _lang.isDate)(crossFrame.date)).to.equal(true, 'support for cross-frame dates');
+        // Should not match
+        (0, _chai.expect)((0, _lang.isDate)([])).to.be.false;
+        (0, _chai.expect)((0, _lang.isDate)({})).to.be.false;
+        (0, _chai.expect)((0, _lang.isDate)(true)).to.be.false;
+        (0, _chai.expect)((0, _lang.isDate)('foo')).to.be.false;
+        (0, _chai.expect)((0, _lang.isDate)(function () {})).to.be.false;
+        (0, _chai.expect)((0, _lang.isDate)(123)).to.be.false;
+        (0, _chai.expect)((0, _lang.isDate)(null)).to.be.false;
+        (0, _chai.expect)((0, _lang.isDate)(undefined)).to.be.false;
+        (0, _chai.expect)((0, _lang.isDate)(/foo/)).to.be.false;
+        (0, _chai.expect)((0, _lang.isDate)(new Error())).to.be.false;
+        (0, _chai.expect)((0, _lang.isDate)(instance)).to.be.false;
+    });
+
+    it('isError', function () {
+        // Should match
+        (0, _chai.expect)((0, _lang.isError)(new Error())).to.be.true;
+        (0, _chai.expect)((0, _lang.isError)(crossFrame.error)).to.equal(true, 'support for cross-frame errors');
+        // Should not match
+        (0, _chai.expect)((0, _lang.isError)([])).to.be.false;
+        (0, _chai.expect)((0, _lang.isError)({})).to.be.false;
+        (0, _chai.expect)((0, _lang.isError)(true)).to.be.false;
+        (0, _chai.expect)((0, _lang.isError)('foo')).to.be.false;
+        (0, _chai.expect)((0, _lang.isError)(function () {})).to.be.false;
+        (0, _chai.expect)((0, _lang.isError)(123)).to.be.false;
+        (0, _chai.expect)((0, _lang.isError)(new Date())).to.be.false;
+        (0, _chai.expect)((0, _lang.isError)(null)).to.be.false;
+        (0, _chai.expect)((0, _lang.isError)(undefined)).to.be.false;
+        (0, _chai.expect)((0, _lang.isError)(/foo/)).to.be.false;
+        (0, _chai.expect)((0, _lang.isError)(instance)).to.be.false;
+    });
+
+    it('isFunction', function () {
+        // Should match
+        (0, _chai.expect)((0, _lang.isFunction)(function foo() {})).to.be.true;
+        (0, _chai.expect)((0, _lang.isFunction)(function () {})).to.be.true;
+        (0, _chai.expect)((0, _lang.isFunction)(crossFrame.function)).to.equal(true, 'support for cross-frame functions');
+        // Should not match
+        (0, _chai.expect)((0, _lang.isFunction)([])).to.be.false;
+        (0, _chai.expect)((0, _lang.isFunction)({})).to.be.false;
+        (0, _chai.expect)((0, _lang.isFunction)(true)).to.be.false;
+        (0, _chai.expect)((0, _lang.isFunction)('foo')).to.be.false;
+        (0, _chai.expect)((0, _lang.isFunction)(123)).to.be.false;
+        (0, _chai.expect)((0, _lang.isFunction)(new Date())).to.be.false;
+        (0, _chai.expect)((0, _lang.isFunction)(null)).to.be.false;
+        (0, _chai.expect)((0, _lang.isFunction)(undefined)).to.be.false;
+        (0, _chai.expect)((0, _lang.isFunction)(/foo/)).to.be.false;
+        (0, _chai.expect)((0, _lang.isFunction)(new Error())).to.be.false;
+        (0, _chai.expect)((0, _lang.isFunction)(instance)).to.be.false;
+    });
+
+    it('isObject', function () {
+        // Should match
+        (0, _chai.expect)((0, _lang.isObject)({})).to.be.true;
+        (0, _chai.expect)((0, _lang.isObject)(Object.create(null))).to.be.true;
+        (0, _chai.expect)((0, _lang.isObject)(instance)).to.be.true;
+        (0, _chai.expect)((0, _lang.isObject)(crossFrame.object)).to.equal(true, 'support for cross-frame objects');
+        // Should not match
+        (0, _chai.expect)((0, _lang.isObject)([])).to.be.false;
+        (0, _chai.expect)((0, _lang.isObject)(true)).to.be.false;
+        (0, _chai.expect)((0, _lang.isObject)('foo')).to.be.false;
+        (0, _chai.expect)((0, _lang.isObject)(function () {})).to.be.false;
+        (0, _chai.expect)((0, _lang.isObject)(123)).to.be.false;
+        (0, _chai.expect)((0, _lang.isObject)(new Date())).to.be.false;
+        (0, _chai.expect)((0, _lang.isObject)(null)).to.be.false;
+        (0, _chai.expect)((0, _lang.isObject)(undefined)).to.be.false;
+        (0, _chai.expect)((0, _lang.isObject)(/foo/)).to.be.false;
+        (0, _chai.expect)((0, _lang.isObject)(new Error())).to.be.false;
+    });
+
+    it('isRegExp', function () {
+        // Should match
+        (0, _chai.expect)((0, _lang.isRegExp)(/foo/)).to.be.true;
+        (0, _chai.expect)((0, _lang.isRegExp)(new RegExp('foo'))).to.be.true;
+        (0, _chai.expect)((0, _lang.isRegExp)(crossFrame.regexp)).to.equal(true, 'support for cross-frame regular expressions');
+        // Should not match
+        (0, _chai.expect)((0, _lang.isRegExp)([])).to.be.false;
+        (0, _chai.expect)((0, _lang.isRegExp)({})).to.be.false;
+        (0, _chai.expect)((0, _lang.isRegExp)(true)).to.be.false;
+        (0, _chai.expect)((0, _lang.isRegExp)('foo')).to.be.false;
+        (0, _chai.expect)((0, _lang.isRegExp)(function () {})).to.be.false;
+        (0, _chai.expect)((0, _lang.isRegExp)(123)).to.be.false;
+        (0, _chai.expect)((0, _lang.isRegExp)(new Date())).to.be.false;
+        (0, _chai.expect)((0, _lang.isRegExp)(null)).to.be.false;
+        (0, _chai.expect)((0, _lang.isRegExp)(undefined)).to.be.false;
+        (0, _chai.expect)((0, _lang.isRegExp)(new Error())).to.be.false;
+        (0, _chai.expect)((0, _lang.isRegExp)(instance)).to.be.false;
+    });
+
+    it('isNull', function () {
+        // Should match
+        (0, _chai.expect)((0, _lang.isNull)(null)).to.be.true;
+        (0, _chai.expect)((0, _lang.isNull)(crossFrame.null)).to.equal(true, 'support for cross-frame null');
+        // Should not match
+        (0, _chai.expect)((0, _lang.isNull)([])).to.be.false;
+        (0, _chai.expect)((0, _lang.isNull)({})).to.be.false;
+        (0, _chai.expect)((0, _lang.isNull)(true)).to.be.false;
+        (0, _chai.expect)((0, _lang.isNull)('foo')).to.be.false;
+        (0, _chai.expect)((0, _lang.isNull)(function () {})).to.be.false;
+        (0, _chai.expect)((0, _lang.isNull)(123)).to.be.false;
+        (0, _chai.expect)((0, _lang.isNull)(new Date())).to.be.false;
+        (0, _chai.expect)((0, _lang.isNull)(undefined)).to.be.false;
+        (0, _chai.expect)((0, _lang.isNull)(/foo/)).to.be.false;
+        (0, _chai.expect)((0, _lang.isNull)(new Error())).to.be.false;
+        (0, _chai.expect)((0, _lang.isNull)(instance)).to.be.false;
     });
 
     it('isUndefined', function () {
-        (0, _chai.expect)((0, _lang.isUndefined)(undefined)).to.equal(true);
-        (0, _chai.expect)((0, _lang.isUndefined)(void 0)).to.equal(true);
+        // Should match
+        (0, _chai.expect)((0, _lang.isUndefined)(undefined)).to.be.true;
+        (0, _chai.expect)((0, _lang.isUndefined)(void 0)).to.be.true;
+        (0, _chai.expect)((0, _lang.isUndefined)(crossFrame.undefined)).to.equal(true, 'support for cross-frame undefined');
+        // Should not match
+        (0, _chai.expect)((0, _lang.isUndefined)([])).to.be.false;
+        (0, _chai.expect)((0, _lang.isUndefined)({})).to.be.false;
+        (0, _chai.expect)((0, _lang.isUndefined)(true)).to.be.false;
+        (0, _chai.expect)((0, _lang.isUndefined)('foo')).to.be.false;
+        (0, _chai.expect)((0, _lang.isUndefined)(function () {})).to.be.false;
+        (0, _chai.expect)((0, _lang.isUndefined)(123)).to.be.false;
+        (0, _chai.expect)((0, _lang.isUndefined)(new Date())).to.be.false;
+        (0, _chai.expect)((0, _lang.isUndefined)(null)).to.be.false;
+        (0, _chai.expect)((0, _lang.isUndefined)(/foo/)).to.be.false;
+        (0, _chai.expect)((0, _lang.isUndefined)(new Error())).to.be.false;
+        (0, _chai.expect)((0, _lang.isUndefined)(instance)).to.be.false;
     });
 });
 
