@@ -88,7 +88,7 @@ export function isNumber(obj) {
  * @api public
  */
 export function isObject(obj) {
-    return typeof obj === 'object' && !!obj;
+    return toString(obj) === 'Object';
 }
 
 /**
