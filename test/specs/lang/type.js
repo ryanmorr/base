@@ -6,7 +6,7 @@ import { isArray, isBoolean, isDate, isError, isFunction, isNull, isNumber, isOb
 describe('lang/type', () => {
     let iframe;
     const crossFrame = window.crossFrame = {};
-    const instance = new function Foo() {};
+    const instance = new function() {};
 
     before(() => {
         // Create objects from another context
