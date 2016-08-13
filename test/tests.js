@@ -15808,7 +15808,36 @@ var BaseObject = function () {
 
 exports.default = BaseObject;
 
-},{"./index":76}],74:[function(require,module,exports){
+},{"./index":77}],74:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = getClass;
+/**
+ * Cache toString
+ */
+var objectToString = {}.toString;
+
+/**
+ * Get the internal [[Class]] of
+ * an object
+ *
+ * @param {*} obj
+ * @param {Boolean} strip (optional)
+ * @return {String}
+ * @api public
+ */
+function getClass(obj) {
+  var strip = arguments.length <= 1 || arguments[1] === undefined ? true : arguments[1];
+
+  var type = objectToString.call(obj);
+  return strip ? type.slice(8, -1) : type;
+}
+module.exports = exports["default"];
+
+},{}],75:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -15828,7 +15857,7 @@ var _index = require('./index');
  */
 function hashCode(obj) {
     var hash = 0;
-    switch ((0, _index.toString)(obj)) {
+    switch ((0, _index.getClass)(obj)) {
         case 'Null':
         case 'Undefined':
             return 0;
@@ -15854,7 +15883,7 @@ function hashCode(obj) {
    */
 module.exports = exports['default'];
 
-},{"./index":76}],75:[function(require,module,exports){
+},{"./index":77}],76:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -15881,7 +15910,7 @@ function hasOwnProperty(obj, name) {
 }
 module.exports = exports["default"];
 
-},{}],76:[function(require,module,exports){
+},{}],77:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -15900,12 +15929,12 @@ Object.keys(_type).forEach(function (key) {
   });
 });
 
-var _tostring = require('./tostring');
+var _getclass = require('./getclass');
 
-Object.defineProperty(exports, 'toString', {
+Object.defineProperty(exports, 'getClass', {
   enumerable: true,
   get: function get() {
-    return _interopRequireDefault(_tostring).default;
+    return _interopRequireDefault(_getclass).default;
   }
 });
 
@@ -15965,7 +15994,7 @@ Object.defineProperty(exports, 'BaseObject', {
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-},{"./baseobject":73,"./hashcode":74,"./hasownproperty":75,"./inherit":77,"./mixin":78,"./tostring":79,"./type":80,"./uid":81}],77:[function(require,module,exports){
+},{"./baseobject":73,"./getclass":74,"./hashcode":75,"./hasownproperty":76,"./inherit":78,"./mixin":79,"./type":80,"./uid":81}],78:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -15989,7 +16018,7 @@ function inherit(subclass, superclass) {
 }
 module.exports = exports["default"];
 
-},{}],78:[function(require,module,exports){
+},{}],79:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -16045,36 +16074,7 @@ function mixin(target) {
 }
 module.exports = exports['default'];
 
-},{"./index":76}],79:[function(require,module,exports){
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = toString;
-/**
- * Cache toString
- */
-var objectToString = {}.toString;
-
-/**
- * Get the internal [[Class]] of
- * an object
- *
- * @param {*} obj
- * @param {Boolean} strip (optional)
- * @return {String}
- * @api public
- */
-function toString(obj) {
-  var strip = arguments.length <= 1 || arguments[1] === undefined ? true : arguments[1];
-
-  var type = objectToString.call(obj);
-  return strip ? type.slice(8, -1) : type;
-}
-module.exports = exports["default"];
-
-},{}],80:[function(require,module,exports){
+},{"./index":77}],80:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -16102,7 +16102,7 @@ var _index = require('./index');
  * @api public
  */
 var isArray = exports.isArray = Array.isArray || function isArray(obj) {
-  return (0, _index.toString)(obj) === 'Array';
+  return (0, _index.getClass)(obj) === 'Array';
 };
 
 /**
@@ -16116,7 +16116,7 @@ var isArray = exports.isArray = Array.isArray || function isArray(obj) {
  * Import dependencies
  */
 function isBoolean(obj) {
-  return (0, _index.toString)(obj) === 'Boolean';
+  return (0, _index.getClass)(obj) === 'Boolean';
 }
 
 /**
@@ -16127,7 +16127,7 @@ function isBoolean(obj) {
  * @api public
  */
 function isDate(obj) {
-  return (0, _index.toString)(obj) === 'Date';
+  return (0, _index.getClass)(obj) === 'Date';
 }
 
 /**
@@ -16138,7 +16138,7 @@ function isDate(obj) {
  * @api public
  */
 function isError(obj) {
-  return (0, _index.toString)(obj) === 'Error' || obj instanceof Error;
+  return (0, _index.getClass)(obj) === 'Error' || obj instanceof Error;
 }
 
 /**
@@ -16149,7 +16149,7 @@ function isError(obj) {
  * @api public
  */
 function isFunction(obj) {
-  return (0, _index.toString)(obj) === 'Function';
+  return (0, _index.getClass)(obj) === 'Function';
 }
 
 /**
@@ -16171,7 +16171,7 @@ function isNull(obj) {
  * @api public
  */
 function isNumber(obj) {
-  return (0, _index.toString)(obj) === 'Number';
+  return (0, _index.getClass)(obj) === 'Number';
 }
 
 /**
@@ -16182,7 +16182,7 @@ function isNumber(obj) {
  * @api public
  */
 function isObject(obj) {
-  return (0, _index.toString)(obj) === 'Object';
+  return (0, _index.getClass)(obj) === 'Object';
 }
 
 /**
@@ -16193,7 +16193,7 @@ function isObject(obj) {
  * @api public
  */
 function isRegExp(obj) {
-  return (0, _index.toString)(obj) === 'RegExp';
+  return (0, _index.getClass)(obj) === 'RegExp';
 }
 
 /**
@@ -16204,7 +16204,7 @@ function isRegExp(obj) {
  * @api public
  */
 function isString(obj) {
-  return (0, _index.toString)(obj) === 'String';
+  return (0, _index.getClass)(obj) === 'String';
 }
 
 /**
@@ -16218,7 +16218,7 @@ function isUndefined(obj) {
   return obj === void 0;
 }
 
-},{"./index":76}],81:[function(require,module,exports){
+},{"./index":77}],81:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -16244,7 +16244,7 @@ module.exports = exports["default"];
 },{}],82:[function(require,module,exports){
 'use strict';
 
-require('./lang/tostring');
+require('./lang/getclass');
 
 require('./lang/hasownproperty');
 
@@ -16260,7 +16260,7 @@ require('./lang/hashcode');
 
 require('./lang/baseobject');
 
-},{"./lang/baseobject":83,"./lang/hashcode":84,"./lang/hasownproperty":85,"./lang/inherit":86,"./lang/mixin":87,"./lang/tostring":88,"./lang/type":89,"./lang/uid":90}],83:[function(require,module,exports){
+},{"./lang/baseobject":83,"./lang/getclass":84,"./lang/hashcode":85,"./lang/hasownproperty":86,"./lang/inherit":87,"./lang/mixin":88,"./lang/type":89,"./lang/uid":90}],83:[function(require,module,exports){
 'use strict';
 
 var _chai = require('chai');
@@ -16576,7 +16576,32 @@ describe('lang/BaseObject', function () {
     });
 });
 
-},{"../../../src/lang":76,"chai":9,"sinon":45}],84:[function(require,module,exports){
+},{"../../../src/lang":77,"chai":9,"sinon":45}],84:[function(require,module,exports){
+'use strict';
+
+var _chai = require('chai');
+
+var _lang = require('../../../src/lang');
+
+describe('lang/getClass', function () {
+    it('should return the internal [[Class]] of an object without the cruft by default', function () {
+        (0, _chai.expect)((0, _lang.getClass)('foo')).to.equal('String');
+        (0, _chai.expect)((0, _lang.getClass)(123)).to.equal('Number');
+        (0, _chai.expect)((0, _lang.getClass)(true)).to.equal('Boolean');
+        (0, _chai.expect)((0, _lang.getClass)([])).to.equal('Array');
+        (0, _chai.expect)((0, _lang.getClass)({})).to.equal('Object');
+    });
+
+    it('should return the internal [[Class]] including the cruft when passed false as an optional second argument', function () {
+        (0, _chai.expect)((0, _lang.getClass)('foo', false)).to.equal('[object String]');
+        (0, _chai.expect)((0, _lang.getClass)(123, false)).to.equal('[object Number]');
+        (0, _chai.expect)((0, _lang.getClass)(true, false)).to.equal('[object Boolean]');
+        (0, _chai.expect)((0, _lang.getClass)([], false)).to.equal('[object Array]');
+        (0, _chai.expect)((0, _lang.getClass)({}, false)).to.equal('[object Object]');
+    });
+});
+
+},{"../../../src/lang":77,"chai":9}],85:[function(require,module,exports){
 'use strict';
 
 var _chai = require('chai');
@@ -16662,7 +16687,7 @@ describe('lang/hashCode', function () {
     });
 });
 
-},{"../../../src/lang":76,"chai":9}],85:[function(require,module,exports){
+},{"../../../src/lang":77,"chai":9}],86:[function(require,module,exports){
 'use strict';
 
 var _chai = require('chai');
@@ -16683,7 +16708,7 @@ describe('lang/hasOwnProperty', function () {
     });
 });
 
-},{"../../../src/lang":76,"chai":9}],86:[function(require,module,exports){
+},{"../../../src/lang":77,"chai":9}],87:[function(require,module,exports){
 'use strict';
 
 var _chai = require('chai');
@@ -16713,7 +16738,7 @@ describe('lang/inherit', function () {
     });
 });
 
-},{"../../../src/lang":76,"chai":9}],87:[function(require,module,exports){
+},{"../../../src/lang":77,"chai":9}],88:[function(require,module,exports){
 'use strict';
 
 var _chai = require('chai');
@@ -16779,32 +16804,7 @@ describe('lang/mixin', function () {
     }
 });
 
-},{"../../../src/lang":76,"chai":9}],88:[function(require,module,exports){
-'use strict';
-
-var _chai = require('chai');
-
-var _lang = require('../../../src/lang');
-
-describe('lang/toString', function () {
-    it('should return the internal [[Class]] of an object without the cruft by default', function () {
-        (0, _chai.expect)((0, _lang.toString)('foo')).to.equal('String');
-        (0, _chai.expect)((0, _lang.toString)(123)).to.equal('Number');
-        (0, _chai.expect)((0, _lang.toString)(true)).to.equal('Boolean');
-        (0, _chai.expect)((0, _lang.toString)([])).to.equal('Array');
-        (0, _chai.expect)((0, _lang.toString)({})).to.equal('Object');
-    });
-
-    it('should return the internal [[Class]] including the cruft when passed false as an optional second argument', function () {
-        (0, _chai.expect)((0, _lang.toString)('foo', false)).to.equal('[object String]');
-        (0, _chai.expect)((0, _lang.toString)(123, false)).to.equal('[object Number]');
-        (0, _chai.expect)((0, _lang.toString)(true, false)).to.equal('[object Boolean]');
-        (0, _chai.expect)((0, _lang.toString)([], false)).to.equal('[object Array]');
-        (0, _chai.expect)((0, _lang.toString)({}, false)).to.equal('[object Object]');
-    });
-});
-
-},{"../../../src/lang":76,"chai":9}],89:[function(require,module,exports){
+},{"../../../src/lang":77,"chai":9}],89:[function(require,module,exports){
 'use strict';
 
 var _chai = require('chai');
@@ -17050,7 +17050,7 @@ describe('lang/type', function () {
     });
 });
 
-},{"../../../src/lang":76,"chai":9}],90:[function(require,module,exports){
+},{"../../../src/lang":77,"chai":9}],90:[function(require,module,exports){
 'use strict';
 
 var _chai = require('chai');
@@ -17068,4 +17068,4 @@ describe('lang/uid', function () {
     });
 });
 
-},{"../../../src/lang":76,"chai":9}]},{},[82]);
+},{"../../../src/lang":77,"chai":9}]},{},[82]);

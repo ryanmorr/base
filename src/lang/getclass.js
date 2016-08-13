@@ -12,7 +12,7 @@ const objectToString = {}.toString;
  * @return {String}
  * @api public
  */
-export default function toString(obj, strip = true) {
+export default function getClass(obj, strip = true) {
     const type = objectToString.call(obj);
     return strip ? type.slice(8, -1) : type;
 }

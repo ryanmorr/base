@@ -1,7 +1,7 @@
 /**
  * Import dependencies
  */
-import { toString } from './index';
+import { getClass } from './index';
 
 /**
  * Generate a hash code for an object
@@ -13,7 +13,7 @@ import { toString } from './index';
  */
 export default function hashCode(obj) {
     let hash = 0;
-    switch (toString(obj)) {
+    switch (getClass(obj)) {
         case 'Null':
         case 'Undefined':
             return 0;

@@ -1,7 +1,7 @@
 /**
  * Import dependencies
  */
-import { toString } from './index';
+import { getClass } from './index';
 
 /**
  * Is the obj an array?
@@ -11,7 +11,7 @@ import { toString } from './index';
  * @api public
  */
 export const isArray = Array.isArray || function isArray(obj) {
-    return toString(obj) === 'Array';
+    return getClass(obj) === 'Array';
 };
 
 /**
@@ -22,7 +22,7 @@ export const isArray = Array.isArray || function isArray(obj) {
  * @api public
  */
 export function isBoolean(obj) {
-    return toString(obj) === 'Boolean';
+    return getClass(obj) === 'Boolean';
 }
 
 /**
@@ -33,7 +33,7 @@ export function isBoolean(obj) {
  * @api public
  */
 export function isDate(obj) {
-    return toString(obj) === 'Date';
+    return getClass(obj) === 'Date';
 }
 
 /**
@@ -44,7 +44,7 @@ export function isDate(obj) {
  * @api public
  */
 export function isError(obj) {
-    return toString(obj) === 'Error' || obj instanceof Error;
+    return getClass(obj) === 'Error' || obj instanceof Error;
 }
 
 /**
@@ -55,7 +55,7 @@ export function isError(obj) {
  * @api public
  */
 export function isFunction(obj) {
-    return toString(obj) === 'Function';
+    return getClass(obj) === 'Function';
 }
 
 /**
@@ -77,7 +77,7 @@ export function isNull(obj) {
  * @api public
  */
 export function isNumber(obj) {
-    return toString(obj) === 'Number';
+    return getClass(obj) === 'Number';
 }
 
 /**
@@ -88,7 +88,7 @@ export function isNumber(obj) {
  * @api public
  */
 export function isObject(obj) {
-    return toString(obj) === 'Object';
+    return getClass(obj) === 'Object';
 }
 
 /**
@@ -99,7 +99,7 @@ export function isObject(obj) {
  * @api public
  */
 export function isRegExp(obj) {
-    return toString(obj) === 'RegExp';
+    return getClass(obj) === 'RegExp';
 }
 
 /**
@@ -110,7 +110,7 @@ export function isRegExp(obj) {
  * @api public
  */
 export function isString(obj) {
-    return toString(obj) === 'String';
+    return getClass(obj) === 'String';
 }
 
 /**

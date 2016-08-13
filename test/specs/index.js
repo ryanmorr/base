@@ -1,7 +1,7 @@
 /**
  * Import all language specs
  */
-import './lang/tostring';
+import './lang/getclass';
 import './lang/hasownproperty';
 import './lang/inherit';
 import './lang/type';
