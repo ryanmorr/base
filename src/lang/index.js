@@ -3,6 +3,7 @@
  * for convenience
  */
 export * from './type';
+export { default as global } from './global';
 export { default as getClass } from './getclass';
 export { default as hasOwnProperty } from './hasownproperty';
 export { default as inherit } from './inherit';
