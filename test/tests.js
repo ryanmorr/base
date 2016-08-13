@@ -8210,9 +8210,18 @@ Object.defineProperty(exports, 'inherit', {
   }
 });
 
+var _mixin = require('./mixin');
+
+Object.defineProperty(exports, 'mixin', {
+  enumerable: true,
+  get: function get() {
+    return _interopRequireDefault(_mixin).default;
+  }
+});
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-},{"./hasownproperty":41,"./inherit":43,"./tostring":44,"./type":45}],43:[function(require,module,exports){
+},{"./hasownproperty":41,"./inherit":43,"./mixin":44,"./tostring":45,"./type":46}],43:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -8237,6 +8246,62 @@ function inherit(subclass, superclass) {
 module.exports = exports["default"];
 
 },{}],44:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = mixin;
+
+var _index = require('./index');
+
+/**
+ * Import dependencies
+ */
+var isEnumerable = {}.propertyIsEnumerable;
+
+/**
+ * Copy properties from one or more objects
+ * to a target object
+ *
+ * @param {Object} target
+ * @param {...Object} props
+ * @return {Object}
+ * @api public
+ */
+/**
+ * Import dependencies
+ */
+function mixin(target) {
+    for (var _len = arguments.length, props = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+        props[_key - 1] = arguments[_key];
+    }
+
+    if (Object.assign) {
+        return Object.assign.apply(Object, [target].concat(props));
+    }
+    for (var i = 0, len = props.length, obj, key; i < len; i++) {
+        obj = props[i];
+        for (key in obj) {
+            if ((0, _index.hasOwnProperty)(obj, key)) {
+                target[key] = obj[key];
+            }
+        }
+        if (Object.getOwnPropertySymbols) {
+            var symbols = Object.getOwnPropertySymbols(obj);
+            for (var n = 0, nLen = symbols.length, symbol; n < nLen; n++) {
+                symbol = symbols[n];
+                if (isEnumerable.call(obj, symbol)) {
+                    target[symbol] = obj[symbol];
+                }
+            }
+        }
+    }
+    return target;
+}
+module.exports = exports['default'];
+
+},{"./index":42}],45:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -8265,7 +8330,7 @@ function toString(obj) {
 }
 module.exports = exports["default"];
 
-},{}],45:[function(require,module,exports){
+},{}],46:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -8409,7 +8474,7 @@ function isUndefined(obj) {
   return obj === void 0;
 }
 
-},{"./index":42}],46:[function(require,module,exports){
+},{"./index":42}],47:[function(require,module,exports){
 'use strict';
 
 require('./lang/tostring');
@@ -8420,7 +8485,9 @@ require('./lang/inherit');
 
 require('./lang/type');
 
-},{"./lang/hasownproperty":47,"./lang/inherit":48,"./lang/tostring":49,"./lang/type":50}],47:[function(require,module,exports){
+require('./lang/mixin');
+
+},{"./lang/hasownproperty":48,"./lang/inherit":49,"./lang/mixin":50,"./lang/tostring":51,"./lang/type":52}],48:[function(require,module,exports){
 'use strict';
 
 var _chai = require('chai');
@@ -8441,7 +8508,7 @@ describe('lang/hasOwnProperty', function () {
     });
 });
 
-},{"../../../src/lang":42,"chai":5}],48:[function(require,module,exports){
+},{"../../../src/lang":42,"chai":5}],49:[function(require,module,exports){
 'use strict';
 
 var _chai = require('chai');
@@ -8450,11 +8517,11 @@ var _lang = require('../../../src/lang');
 
 describe('lang/inherit', function () {
     it('should be able to inherit the properties of one function\'s prototype to another function\s prototype', function () {
-        function A() {}
+        var A = function A() {};
         A.prototype.foo = function () {
             return 'bar';
         };
-        function B() {}
+        var B = function B() {};
         (0, _lang.inherit)(B, A);
         var b = new B();
         (0, _chai.expect)('foo' in b).to.be.true;
@@ -8463,15 +8530,81 @@ describe('lang/inherit', function () {
     });
 
     it('should set the constructor of the subclass to the constructor function', function () {
-        function A() {}
-        function B() {}
+        var A = function A() {};
+        var B = function B() {};
         (0, _lang.inherit)(B, A);
         var b = new B();
         (0, _chai.expect)(b.constructor).to.equal(B);
     });
 });
 
-},{"../../../src/lang":42,"chai":5}],49:[function(require,module,exports){
+},{"../../../src/lang":42,"chai":5}],50:[function(require,module,exports){
+'use strict';
+
+var _chai = require('chai');
+
+var _lang = require('../../../src/lang');
+
+describe('lang/mixin', function () {
+    var assign = void 0,
+        undef = void 0;
+
+    before(function () {
+        assign = Object.assign;
+        Object.assign = undef;
+    });
+
+    after(function () {
+        Object.assign = assign;
+    });
+
+    it('should support merging of a source object onto a target object', function () {
+        (0, _chai.expect)((0, _lang.mixin)({ foo: 1 }, { bar: 2 })).to.deep.equal({ foo: 1, bar: 2 });
+    });
+
+    it('should support merging of multiple source objects onto a target object (right overwrites left)', function () {
+        (0, _chai.expect)((0, _lang.mixin)({ foo: 1 }, { bar: 2 }, { foo: 10, baz: 3 })).to.deep.equal({ foo: 10, bar: 2, baz: 3 });
+    });
+
+    it('should return the target object', function () {
+        var target = {};
+        var returnValue = (0, _lang.mixin)(target, { foo: 1 });
+        (0, _chai.expect)(returnValue).to.equal(target);
+    });
+
+    it('should only merge own properties', function () {
+        var Foo = function Foo() {};
+        Foo.prototype.foo = 1;
+        var foo = new Foo();
+        foo.bar = 2;
+        (0, _chai.expect)((0, _lang.mixin)({ baz: 3 }, foo)).to.deep.equal({ bar: 2, baz: 3 });
+    });
+
+    if (typeof Symbol !== 'undefined') {
+        it('should support symbol properties', function () {
+            var target = {};
+            var source = {};
+            var symbol = Symbol('foo');
+            source[symbol] = 'bar';
+            (0, _lang.mixin)(target, source);
+            (0, _chai.expect)(target[symbol]).to.equal('bar');
+        });
+
+        it('should only copy enumerable symbols', function () {
+            var target = {};
+            var source = {};
+            var symbol = Symbol('foo');
+            Object.defineProperty(source, symbol, {
+                enumerable: false,
+                value: 'bar'
+            });
+            (0, _lang.mixin)(target, source);
+            (0, _chai.expect)(target[symbol]).to.equal(void 0);
+        });
+    }
+});
+
+},{"../../../src/lang":42,"chai":5}],51:[function(require,module,exports){
 'use strict';
 
 var _chai = require('chai');
@@ -8496,7 +8629,7 @@ describe('lang/toString', function () {
     });
 });
 
-},{"../../../src/lang":42,"chai":5}],50:[function(require,module,exports){
+},{"../../../src/lang":42,"chai":5}],52:[function(require,module,exports){
 'use strict';
 
 var _chai = require('chai');
@@ -8508,7 +8641,7 @@ var _lang = require('../../../src/lang');
 describe('lang/type', function () {
     var iframe = void 0;
     var crossFrame = window.crossFrame = {};
-    var instance = new function Foo() {}();
+    var instance = new function () {}();
 
     before(function () {
         // Create objects from another context
@@ -8742,4 +8875,4 @@ describe('lang/type', function () {
     });
 });
 
-},{"../../../src/lang":42,"chai":5}]},{},[46]);
+},{"../../../src/lang":42,"chai":5}]},{},[47]);
