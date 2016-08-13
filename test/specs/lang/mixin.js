@@ -5,12 +5,16 @@ describe('lang/mixin', () => {
     let assign, undef;
 
     before(() => {
-        assign = Object.assign;
-        Object.assign = undef;
+        if (Object.assign) {
+            assign = Object.assign;
+            Object.assign = undef;
+        }
     });
 
     after(() => {
-        Object.assign = assign;
+        if (assign) {
+            Object.assign = assign;
+        }
     });
 
     it('should support merging of a source object onto a target object', () => {
