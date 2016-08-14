@@ -16032,6 +16032,15 @@ Object.defineProperty(exports, 'mixin', {
   }
 });
 
+var _port = require('./port');
+
+Object.defineProperty(exports, 'port', {
+  enumerable: true,
+  get: function get() {
+    return _interopRequireDefault(_port).default;
+  }
+});
+
 var _uid = require('./uid');
 
 Object.defineProperty(exports, 'uid', {
@@ -16061,7 +16070,7 @@ Object.defineProperty(exports, 'BaseObject', {
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-},{"./baseobject":73,"./getclass":74,"./global":75,"./hashcode":76,"./hasownproperty":77,"./inherit":79,"./mixin":80,"./type":81,"./uid":82}],79:[function(require,module,exports){
+},{"./baseobject":73,"./getclass":74,"./global":75,"./hashcode":76,"./hasownproperty":77,"./inherit":79,"./mixin":80,"./port":81,"./type":82,"./uid":83}],79:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -16142,6 +16151,26 @@ function mixin(target) {
 module.exports = exports['default'];
 
 },{"./index":78}],81:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = port;
+/**
+ * Port an object method to be
+ * used standalone
+ *
+ * @param {Function} fn
+ * @return {Function}
+ * @api public
+ */
+function port(fn) {
+  return Function.prototype.bind.call(Function.call, fn);
+}
+module.exports = exports["default"];
+
+},{}],82:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -16285,7 +16314,7 @@ function isUndefined(obj) {
   return obj === void 0;
 }
 
-},{"./index":78}],82:[function(require,module,exports){
+},{"./index":78}],83:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -16308,7 +16337,7 @@ function uid() {
 }
 module.exports = exports["default"];
 
-},{}],83:[function(require,module,exports){
+},{}],84:[function(require,module,exports){
 'use strict';
 
 require('./lang/global');
@@ -16323,13 +16352,15 @@ require('./lang/type');
 
 require('./lang/mixin');
 
+require('./lang/port');
+
 require('./lang/uid');
 
 require('./lang/hashcode');
 
 require('./lang/baseobject');
 
-},{"./lang/baseobject":84,"./lang/getclass":85,"./lang/global":86,"./lang/hashcode":87,"./lang/hasownproperty":88,"./lang/inherit":89,"./lang/mixin":90,"./lang/type":91,"./lang/uid":92}],84:[function(require,module,exports){
+},{"./lang/baseobject":85,"./lang/getclass":86,"./lang/global":87,"./lang/hashcode":88,"./lang/hasownproperty":89,"./lang/inherit":90,"./lang/mixin":91,"./lang/port":92,"./lang/type":93,"./lang/uid":94}],85:[function(require,module,exports){
 'use strict';
 
 var _chai = require('chai');
@@ -16645,7 +16676,7 @@ describe('lang/BaseObject', function () {
     });
 });
 
-},{"../../../src/lang":78,"chai":9,"sinon":45}],85:[function(require,module,exports){
+},{"../../../src/lang":78,"chai":9,"sinon":45}],86:[function(require,module,exports){
 'use strict';
 
 var _chai = require('chai');
@@ -16670,7 +16701,7 @@ describe('lang/getClass', function () {
     });
 });
 
-},{"../../../src/lang":78,"chai":9}],86:[function(require,module,exports){
+},{"../../../src/lang":78,"chai":9}],87:[function(require,module,exports){
 'use strict';
 
 var _chai = require('chai');
@@ -16692,7 +16723,7 @@ describe('lang/global', function () {
     });
 });
 
-},{"../../../src/lang":78,"chai":9}],87:[function(require,module,exports){
+},{"../../../src/lang":78,"chai":9}],88:[function(require,module,exports){
 'use strict';
 
 var _chai = require('chai');
@@ -16778,7 +16809,7 @@ describe('lang/hashCode', function () {
     });
 });
 
-},{"../../../src/lang":78,"chai":9}],88:[function(require,module,exports){
+},{"../../../src/lang":78,"chai":9}],89:[function(require,module,exports){
 'use strict';
 
 var _chai = require('chai');
@@ -16799,7 +16830,7 @@ describe('lang/hasOwnProperty', function () {
     });
 });
 
-},{"../../../src/lang":78,"chai":9}],89:[function(require,module,exports){
+},{"../../../src/lang":78,"chai":9}],90:[function(require,module,exports){
 'use strict';
 
 var _chai = require('chai');
@@ -16829,7 +16860,7 @@ describe('lang/inherit', function () {
     });
 });
 
-},{"../../../src/lang":78,"chai":9}],90:[function(require,module,exports){
+},{"../../../src/lang":78,"chai":9}],91:[function(require,module,exports){
 'use strict';
 
 var _chai = require('chai');
@@ -16841,12 +16872,16 @@ describe('lang/mixin', function () {
         undef = void 0;
 
     before(function () {
-        assign = Object.assign;
-        Object.assign = undef;
+        if (Object.assign) {
+            assign = Object.assign;
+            Object.assign = undef;
+        }
     });
 
     after(function () {
-        Object.assign = assign;
+        if (assign) {
+            Object.assign = assign;
+        }
     });
 
     it('should support merging of a source object onto a target object', function () {
@@ -16895,7 +16930,25 @@ describe('lang/mixin', function () {
     }
 });
 
-},{"../../../src/lang":78,"chai":9}],91:[function(require,module,exports){
+},{"../../../src/lang":78,"chai":9}],92:[function(require,module,exports){
+'use strict';
+
+var _chai = require('chai');
+
+var _lang = require('../../../src/lang');
+
+describe('lang/port', function () {
+    it('should be able to port an object method to be used standalone', function () {
+        var each = (0, _lang.port)([].forEach);
+        var array = [1, 2, 3, 4, 5];
+        each(array, function (item, i) {
+            array[i] = item * i;
+        });
+        (0, _chai.expect)(array).to.deep.equal([0, 2, 6, 12, 20]);
+    });
+});
+
+},{"../../../src/lang":78,"chai":9}],93:[function(require,module,exports){
 'use strict';
 
 var _chai = require('chai');
@@ -17141,7 +17194,7 @@ describe('lang/type', function () {
     });
 });
 
-},{"../../../src/lang":78,"chai":9}],92:[function(require,module,exports){
+},{"../../../src/lang":78,"chai":9}],94:[function(require,module,exports){
 'use strict';
 
 var _chai = require('chai');
@@ -17159,4 +17212,4 @@ describe('lang/uid', function () {
     });
 });
 
-},{"../../../src/lang":78,"chai":9}]},{},[83]);
+},{"../../../src/lang":78,"chai":9}]},{},[84]);
