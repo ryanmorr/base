@@ -58,7 +58,7 @@ gulp.task('build', ['clean'], () => {
         .pipe(sourcemaps.init({loadMaps: true}))
         .pipe(header(banner, {pkg}))
         .pipe(gulp.dest(config.src.outputDir))
-        .pipe(uglify())
+        .pipe(uglify({mangle: false}))
         .pipe(rename({suffix: '.min'}))
         .pipe(header(banner, {pkg}))
         .pipe(sourcemaps.write('./'))
@@ -71,6 +71,7 @@ gulp.task('build:test', ['clean:test'], () => {
         .bundle()
         .pipe(source(config.test.outputFile))
         .pipe(buffer())
+        .pipe(uglify({mangle: false}))
         .pipe(gulp.dest(config.test.outputDir));
 });
 
