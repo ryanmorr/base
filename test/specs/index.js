@@ -11,3 +11,8 @@ import './lang/port';
 import './lang/uid';
 import './lang/hashcode';
 import './lang/baseobject';
+
+/**
+ * Import all array specs
+ */
+import './array/array';
