@@ -17,3 +17,8 @@ import './lang/baseobject';
  * Import all array specs
  */
 import './array/array';
+
+/**
+ * Import all object specs
+ */
+import './object/object';
