@@ -7,8 +7,10 @@ import * as array from './array';
 /**
  * Export module namespaces individually
  */
-export lang;
-export array;
+export {
+    lang,
+    array
+};
 
 /**
  * Declare and export `base` namespace
