@@ -3,6 +3,7 @@
  */
 import './lang/global';
 import './lang/getclass';
+import './lang/getname';
 import './lang/hasownproperty';
 import './lang/inherit';
 import './lang/type';
