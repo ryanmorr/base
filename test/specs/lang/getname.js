@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import { getName } from '../../../src/lang';
 
-describe('get-name', () => {
+describe('lang/get-name', () => {
     it('should identify null and undefined', () => {
         expect(getName(null)).to.equal('null');
         expect(getName(undefined)).to.equal('undefined');
