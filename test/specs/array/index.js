@@ -1,4 +1,4 @@
 /**
- * Import all language specs
+ * Import all array specs
  */
 import './array';
