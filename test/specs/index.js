@@ -3,4 +3,4 @@
  */
 import './lang';
 import './array';
-import './object/object';
+import './object';
