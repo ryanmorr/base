@@ -1,14 +1,6 @@
 /**
- * Import all language specs
+ * Import all specs
  */
 import './lang';
-
-/**
- * Import all array specs
- */
-import './array/array';
-
-/**
- * Import all object specs
- */
+import './array';
 import './object/object';

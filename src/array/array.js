@@ -213,7 +213,7 @@ export function unique(arr) {
 /**
  * Is the array empty?
  *
- * @param {Array|Array|ArrayLike} arr
+ * @param {Array|ArrayLike} arr
  * @return {Boolean}
  * @api public
  */
@@ -224,7 +224,7 @@ export function isEmpty(arr) {
 /**
  * Return a random item from an array
  *
- * @param {Array|Array|ArrayLike} arr
+ * @param {Array|ArrayLike} arr
  * @return {*}
  * @api public
  */
@@ -233,25 +233,26 @@ export function random(arr) {
 }
 
 /**
- * Removes the first occurrence of an
- * object from an array
+ * Removes all occurrences of a value
+ * from an array
  *
- * @param {Array|Array|ArrayLike} arr
+ * @param {Array|ArrayLike} arr
  * @param {*} obj
  * @api public
  */
 export function remove(arr, obj) {
-    const index = indexOf(arr, obj);
-    if (index !== -1) {
-        removeAt(arr, index);
-    }
+    each(arr, (val, index) => {
+        if (val === obj) {
+            removeAt(arr, index);
+        }
+    });
 }
 
 /**
  * Removes an item from the array at the
  * provided index
  *
- * @param {Array|Array|ArrayLike} arr
+ * @param {Array|ArrayLike} arr
  * @param {Number} index
  * @api public
  */
@@ -263,7 +264,7 @@ export function removeAt(arr, index) {
  * Adds an object to the array if it's
  * not already in the array
  *
- * @param {Array|Array|ArrayLike} arr
+ * @param {Array|ArrayLike} arr
  * @param {*} obj
  * @api public
  */
@@ -277,7 +278,7 @@ export function include(arr, obj) {
  * Inserts an object at the given index
  * of the array
  *
- * @param {Array|Array|ArrayLike} arr
+ * @param {Array|ArrayLike} arr
  * @param {*} obj
  * @param {Number} index
  * @api public
@@ -289,7 +290,7 @@ export function insert(arr, obj, index) {
 /**
  * Clones the array into a new array
  *
- * @param {Array|Array|ArrayLike} arr
+ * @param {Array|ArrayLike} arr
  * @return {Array}
  * @api public
  */
@@ -302,7 +303,7 @@ export function copy(arr) {
  * that satisfies a given condition and
  * return that item
  *
- * @param {Array|Array|ArrayLike} arr
+ * @param {Array|ArrayLike} arr
  * @param {Function} fn
  * @param {*} ctx (optional)
  * @return {Array}
@@ -321,7 +322,7 @@ export function find(arr, fn, ctx) {
  * that satisfies a given condition and
  * return its index
  *
- * @param {Array|Array|ArrayLike} arr
+ * @param {Array|ArrayLike} arr
  * @param {Function} fn
  * @param {*} ctx (optional)
  * @return {Array}
