@@ -3,3 +3,4 @@
  */
 import './config';
 import './isdebugging';
+import './registry';

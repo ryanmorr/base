@@ -4,3 +4,4 @@
  */
 export { default as config } from './config';
 export { default as isDebugging } from './isdebugging';
+export * from './registry';
