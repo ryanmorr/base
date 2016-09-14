@@ -1,4 +1,4 @@
-# base
+# base [![Build Status](https://travis-ci.org/ryanmorr/base.svg?branch=master)](https://travis-ci.org/ryanmorr/base)
 
 > Fully-featured JavaScript framework written entirely in ES6 (ES2015).
 
