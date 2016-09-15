@@ -3,3 +3,4 @@
  * for convenience
  */
 export * from './object';
+export { default as hashmap } from './hashmap';
