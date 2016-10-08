@@ -306,7 +306,7 @@ export function copy(arr) {
  * @param {Array|ArrayLike} arr
  * @param {Function} fn
  * @param {*} ctx (optional)
- * @return {Array}
+ * @return {*}
  * @api public
  */
 export function find(arr, fn, ctx) {
@@ -325,7 +325,7 @@ export function find(arr, fn, ctx) {
  * @param {Array|ArrayLike} arr
  * @param {Function} fn
  * @param {*} ctx (optional)
- * @return {Array}
+ * @return {Number}
  * @api public
  */
 export function findIndex(arr, fn, ctx) {
