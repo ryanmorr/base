@@ -17,7 +17,7 @@ const objects = Object.create(null);
  * @param {String} id
  * @return {*|Null}
  */
-export function retrieve(id) {
+function get(id) {
     return id in objects ? objects[id] : null;
 }
 
@@ -29,7 +29,7 @@ export function retrieve(id) {
  * @param {*} obj
  * @api public
  */
-export function register(id, obj) {
+function add(id, obj) {
     if (arguments.length === 1) {
         obj = id;
         if ('id' in obj && isFunction(obj.id)) {
@@ -49,7 +49,7 @@ export function register(id, obj) {
  * @param {String} id
  * @api public
  */
-export function unregister(id) {
+function remove(id) {
     if (id in objects) {
         delete objects[id];
     }
@@ -59,3 +59,9 @@ export function unregister(id) {
         }
     }
 }
+
+/**
+ * Declare `registry` namespace and export
+ */
+const registry = {get, add, remove};
+export default registry;
