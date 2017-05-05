@@ -7,3 +7,4 @@ import './array';
 import './object';
 import './function';
 import './string';
+import './css';
