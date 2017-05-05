@@ -6,3 +6,4 @@ import './app';
 import './array';
 import './object';
 import './function';
+import './string';

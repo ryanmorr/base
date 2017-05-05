@@ -6,6 +6,7 @@ import * as lang from './lang';
 import * as array from './array';
 import * as object from './object';
 import * as func from './function';
+import * as string from './string';
 
 /**
  * Export module namespaces individually
@@ -15,7 +16,8 @@ export {
     lang,
     array,
     object,
-    func
+    func,
+    string
 };
 
 /**
@@ -26,7 +28,8 @@ const base = {
     lang,
     array,
     object,
-    func
+    func,
+    string
 };
 
 /**
