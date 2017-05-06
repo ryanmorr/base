@@ -8,6 +8,7 @@ import * as object from './object';
 import * as func from './function';
 import * as string from './string';
 import * as css from './css';
+import * as dom from './dom';
 
 /**
  * Export module namespaces individually
@@ -19,7 +20,8 @@ export {
     object,
     func,
     string,
-    css
+    css,
+    dom
 };
 
 /**
@@ -32,7 +34,8 @@ const base = {
     object,
     func,
     string,
-    css
+    css,
+    dom
 };
 
 /**

@@ -8,3 +8,4 @@ import './object';
 import './function';
 import './string';
 import './css';
+import './dom';
