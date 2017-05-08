@@ -1,8 +1,9 @@
 /**
  * Import dependencies
  */
+import { doc } from './index';
 import { toArray } from '../array';
-import { isString } from '../lang';
+import { isString, isNode } from '../lang';
 
 /**
  * Resolve a value to return
@@ -16,7 +17,7 @@ export function resolve(el) {
     if (isString(el)) {
         return find(el);
     }
-    if (el.nodeName && el.nodeType > 0) {
+    if (isNode(el)) {
         return el;
     }
     return null;
@@ -31,7 +32,7 @@ export function resolve(el) {
  * @return {Element|Null}
  * @api public
  */
-export function find(selector, root = document) {
+export function find(selector, root = doc) {
     return resolve(root).querySelector(selector);
 }
 
@@ -44,6 +45,6 @@ export function find(selector, root = document) {
  * @return {NodeList}
  * @api public
  */
-export function query(selector, root = document) {
+export function query(selector, root = doc) {
     return toArray(resolve(root).querySelectorAll(selector));
 }
