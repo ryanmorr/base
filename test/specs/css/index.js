@@ -1,4 +1,4 @@
 /**
  * Import all CSS specs
  */
-import './css';
+import './style';
