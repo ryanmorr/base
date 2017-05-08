@@ -1,7 +1,7 @@
 /* eslint-disable no-new-wrappers */
 
 import { expect } from 'chai';
-import { isArray, isBoolean, isDate, isError, isFunction, isNull, isNumber, isObject, isRegExp, isString, isUndefined } from '../../../src/lang';
+import { isArray, isBoolean, isDate, isError, isFunction, isNode, isNull, isNumber, isObject, isRegExp, isString, isUndefined, type } from '../../../src/lang';
 
 describe('lang/type', () => {
     let iframe;
@@ -13,21 +13,22 @@ describe('lang/type', () => {
         document.body.appendChild(iframe);
         const iframeWindow = iframe.contentWindow;
         const iframeDocument = iframe.contentDocument || iframeWindow.document;
-        iframeDocument.write([
-            '<script>',
-            'parent.crossFrame.array = [];',
-            'parent.crossFrame.string = new String("");',
-            'parent.crossFrame.number = new Number(123);',
-            'parent.crossFrame.function = (function(){});',
-            'parent.crossFrame.date = new Date();',
-            'parent.crossFrame.regexp = /foo/;',
-            'parent.crossFrame.null = null;',
-            'parent.crossFrame.boolean = new Boolean(false);',
-            'parent.crossFrame.undefined = undefined;',
-            'parent.crossFrame.object = {};',
-            'parent.crossFrame.error = new Error();',
-            '</script>'
-        ].join('\n'));
+        iframeDocument.write(`
+            <script>
+            parent.crossFrame.array = [];
+            parent.crossFrame.boolean = new Boolean(false);
+            parent.crossFrame.date = new Date();
+            parent.crossFrame.error = new Error();
+            parent.crossFrame.function = (function(){});
+            parent.crossFrame.node = document.createElement('div');
+            parent.crossFrame.null = null;
+            parent.crossFrame.number = new Number(123);
+            parent.crossFrame.object = {};
+            parent.crossFrame.regexp = /foo/;
+            parent.crossFrame.string = new String("");
+            parent.crossFrame.undefined = undefined;
+            </script>
+        `);
         iframeDocument.close();
     });
 
@@ -63,6 +64,7 @@ describe('lang/type', () => {
             expect(isArray(/foo/)).to.be.false;
             expect(isArray(new Error())).to.be.false;
             expect(isArray(instance)).to.be.false;
+            expect(isArray(document.createElement('div'))).to.be.false;
         });
     });
 
@@ -89,6 +91,7 @@ describe('lang/type', () => {
             expect(isBoolean(/foo/)).to.be.false;
             expect(isBoolean(new Error())).to.be.false;
             expect(isBoolean(instance)).to.be.false;
+            expect(isBoolean(document.createElement('div'))).to.be.false;
         });
     });
 
@@ -119,6 +122,7 @@ describe('lang/type', () => {
             expect(isNumber(/foo/)).to.be.false;
             expect(isNumber(new Error())).to.be.false;
             expect(isNumber(instance)).to.be.false;
+            expect(isNumber(document.createElement('div'))).to.be.false;
         });
     });
 
@@ -145,6 +149,7 @@ describe('lang/type', () => {
             expect(isFunction(/foo/)).to.be.false;
             expect(isFunction(new Error())).to.be.false;
             expect(isFunction(instance)).to.be.false;
+            expect(isFunction(document.createElement('div'))).to.be.false;
         });
     });
 
@@ -171,6 +176,7 @@ describe('lang/type', () => {
             expect(isString(/foo/)).to.be.false;
             expect(isString(new Error())).to.be.false;
             expect(isString(instance)).to.be.false;
+            expect(isString(document.createElement('div'))).to.be.false;
         });
     });
 
@@ -197,6 +203,7 @@ describe('lang/type', () => {
             expect(isObject(undefined)).to.be.false;
             expect(isObject(/foo/)).to.be.false;
             expect(isObject(new Error())).to.be.false;
+            expect(isObject(document.createElement('div'))).to.be.false;
         });
     });
 
@@ -222,6 +229,7 @@ describe('lang/type', () => {
             expect(isDate(/foo/)).to.be.false;
             expect(isDate(new Error())).to.be.false;
             expect(isDate(instance)).to.be.false;
+            expect(isDate(document.createElement('div'))).to.be.false;
         });
     });
 
@@ -247,6 +255,7 @@ describe('lang/type', () => {
             expect(isError(undefined)).to.be.false;
             expect(isError(/foo/)).to.be.false;
             expect(isError(instance)).to.be.false;
+            expect(isError(document.createElement('div'))).to.be.false;
         });
     });
 
@@ -273,6 +282,36 @@ describe('lang/type', () => {
             expect(isRegExp(undefined)).to.be.false;
             expect(isRegExp(new Error())).to.be.false;
             expect(isRegExp(instance)).to.be.false;
+            expect(isRegExp(document.createElement('div'))).to.be.false;
+        });
+    });
+
+    describe('isNode', () => {
+        it('should return true for DOM nodes', () => {
+            expect(isNode(document)).to.be.true;
+            expect(isNode(document.createElement('div'))).to.be.true;
+            expect(isNode(document.createTextNode('foo'))).to.be.true;
+            expect(isNode(document.createComment('foo'))).to.be.true;
+            expect(isNode(document.createDocumentFragment())).to.be.true;
+        });
+
+        it('should return true for cross-frame DOM nodes', () => {
+            expect(isNode(crossFrame.node)).to.equal(true);
+        });
+
+        it('should return false for anything not a DOM node', () => {
+            const instance = new function() {};
+            expect(isNode([])).to.be.false;
+            expect(isNode({})).to.be.false;
+            expect(isNode(true)).to.be.false;
+            expect(isNode('foo')).to.be.false;
+            expect(isNode(function() {})).to.be.false;
+            expect(isNode(123)).to.be.false;
+            expect(isNode(new Date())).to.be.false;
+            expect(isNode(undefined)).to.be.false;
+            expect(isNode(/foo/)).to.be.false;
+            expect(isNode(new Error())).to.be.false;
+            expect(isNode(instance)).to.be.false;
         });
     });
 
@@ -298,6 +337,7 @@ describe('lang/type', () => {
             expect(isNull(/foo/)).to.be.false;
             expect(isNull(new Error())).to.be.false;
             expect(isNull(instance)).to.be.false;
+            expect(isNull(document.createElement('div'))).to.be.false;
         });
     });
 
@@ -324,6 +364,35 @@ describe('lang/type', () => {
             expect(isUndefined(/foo/)).to.be.false;
             expect(isUndefined(new Error())).to.be.false;
             expect(isUndefined(instance)).to.be.false;
+            expect(isUndefined(document.createElement('div'))).to.be.false;
+        });
+    });
+
+    describe('type', () => {
+        it('should return an object\'s type as a string', () => {
+            const args = (function() { return arguments; })(1, 2, 3);
+            const nan = Math.sqrt(-1);
+
+            expect(type(undefined)).to.equal('undefined');
+            expect(type([])).to.equal('array');
+            expect(type({})).to.equal('object');
+            expect(type(true)).to.equal('boolean');
+            expect(type('foo')).to.equal('string');
+            expect(type(function() {})).to.equal('function');
+            expect(type(123)).to.equal('number');
+            expect(type(new Date())).to.equal('date');
+            expect(type(null)).to.equal('null');
+            expect(type(/foo/)).to.equal('regexp');
+            expect(type(new Error())).to.equal('error');
+            expect(type(nan)).to.equal('nan');
+            expect(type(args)).to.equal('arguments');
+            expect(type(window)).to.equal('global');
+            expect(type(document)).to.equal('document');
+            expect(type(document.createElement('div'))).to.equal('element');
+            expect(type(document.createTextNode('foo'))).to.equal('textnode');
+            expect(type(document.createComment('foo'))).to.equal('commentnode');
+            expect(type(document.createDocumentFragment())).to.equal('documentfragment');
+            expect(type(document.childNodes)).to.equal('nodelist');
         });
     });
 });
