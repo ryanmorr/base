@@ -4,3 +4,5 @@
  */
 export * from './document';
 export * from './get';
+export * from './properties';
+export * from './attributes';
