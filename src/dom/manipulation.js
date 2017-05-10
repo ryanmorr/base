@@ -2,7 +2,7 @@
  * Import dependencies
  */
 import { doc, resolve } from './index';
-import { each } from '../array';
+import { toArray } from '../array';
 
 /**
  * Append a node as the first child
@@ -55,13 +55,11 @@ export function setText(el, text) {
  */
 export function clearText(el) {
     el = resolve(el);
-    const textNodes = [];
-    each(el.childNodes, (child) => {
+    toArray(el.childNodes).forEach((child) => {
         if (child.nodeType === 3) {
-            textNodes.push(child);
+            el.removeChild(child);
         }
     });
-    textNodes.forEach((text) => el.removeChild(text));
 }
 
 /**
