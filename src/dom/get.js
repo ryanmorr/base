@@ -1,9 +1,9 @@
 /**
  * Import dependencies
  */
-import { doc } from './index';
+import { doc, createElement, isHTML, toFragment} from './index';
 import { toArray } from '../array';
-import { isString, isNode } from '../lang';
+import { isString, isNode, isArray } from '../lang';
 
 /**
  * Resolve a value to return
@@ -15,10 +15,17 @@ import { isString, isNode } from '../lang';
  */
 export function resolve(el) {
     if (isString(el)) {
+        if (isHTML(el)) {
+            const frag = toFragment(el);
+            return frag.childNodes.length === 1 ? frag.firstChild : frag;
+        }
         return find(el);
     }
     if (isNode(el)) {
         return el;
+    }
+    if (isArray(el)) {
+        return createElement(...el);
     }
     return null;
 }

@@ -15,10 +15,20 @@ describe('dom/get', () => {
             expect(resolve('#foo')).to.equal(el);
         });
 
+        it('should parse an HTML string and return a DOM node', () => {
+            expect(resolve('<div></div>').nodeType).to.equal(1);
+            expect(resolve('<div></div><div></div>').nodeType).to.equal(11);
+        });
+
         it('should return the DOM node if provided one', () => {
             const textnode = document.createTextNode('foo');
             expect(resolve(el)).to.equal(el);
             expect(resolve(textnode)).to.equal(textnode);
+        });
+
+        it('should create and return a DOM node if provided a composable array', () => {
+            const el = resolve(['div']);
+            expect(el.nodeName).to.equal('DIV');
         });
 
         it('should return null if provided anything other than a string or DOM node', () => {
