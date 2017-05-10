@@ -10,3 +10,4 @@ export * from './create';
 export * from './html';
 export * from './manipulation';
 export { default as matches } from './matches';
+export { default as write } from './write';

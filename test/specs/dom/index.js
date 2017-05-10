@@ -9,3 +9,4 @@ import './create';
 import './html';
 import './manipulation';
 import './matches';
+import './write';
