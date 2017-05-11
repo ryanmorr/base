@@ -4,7 +4,7 @@
 import { hasOwnProperty } from './index';
 
 /**
- * Import dependencies
+ * Common variables
  */
 const isEnumerable = {}.propertyIsEnumerable;
 
