@@ -9,6 +9,7 @@ import * as func from './function';
 import * as string from './string';
 import * as css from './css';
 import * as dom from './dom';
+import * as events from './events';
 
 /**
  * Export module namespaces individually
@@ -21,7 +22,8 @@ export {
     func,
     string,
     css,
-    dom
+    dom,
+    events
 };
 
 /**
@@ -35,7 +37,8 @@ const base = {
     func,
     string,
     css,
-    dom
+    dom,
+    events
 };
 
 /**

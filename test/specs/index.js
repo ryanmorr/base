@@ -9,3 +9,4 @@ import './function';
 import './string';
 import './css';
 import './dom';
+import './events';
