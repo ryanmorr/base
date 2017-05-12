@@ -32,16 +32,15 @@ const Observable = hashmap({
      *
      * @param {String} name
      * @param {Function} fn
-     * @param {*} ctx (optional)
      * @api public
      */
-    addListener(name, fn, ctx = null) {
+    addListener(name, fn) {
         let evt = this.customEvents[name];
         if (isNull(evt)) {
             evt = [];
             this.customEvents[name] = evt;
         }
-        evt.push(ctx ? fn.bind(ctx) : fn);
+        evt.push(fn);
     },
 
     /**
