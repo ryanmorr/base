@@ -6,7 +6,7 @@ describe('dom/traversal', () => {
     container.innerHTML = `
         <section class="foo">
             <div class="bar">
-                <span class="baz"></baz>
+                <span class="baz"></span>
             </div>
         </section>
     `;
