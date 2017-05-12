@@ -13,7 +13,6 @@ import { toArray } from '../array';
  * @api public
  */
 export function prepend(el, child) {
-    el = resolve(el);
     child = resolve(child);
     if ('prepend' in el) {
         el.prepend(child);
@@ -30,7 +29,7 @@ export function prepend(el, child) {
  * @api public
  */
 export function append(el, child) {
-    resolve(el).appendChild(resolve(child));
+    el.appendChild(resolve(child));
 }
 
 /**
@@ -43,7 +42,7 @@ export function append(el, child) {
  */
 export function setText(el, text) {
     clearText(el);
-    resolve(el).appendChild(doc.createTextNode(text));
+    el.appendChild(doc.createTextNode(text));
 }
 
 /**
@@ -54,7 +53,6 @@ export function setText(el, text) {
  * @api public
  */
 export function clearText(el) {
-    el = resolve(el);
     toArray(el.childNodes).forEach((child) => {
         if (child.nodeType === 3) {
             el.removeChild(child);
@@ -70,7 +68,6 @@ export function clearText(el) {
  * @api public
  */
 export function empty(el) {
-    el = resolve(el);
     while (el.firstChild) {
         el.removeChild(el.firstChild);
     }
@@ -83,7 +80,6 @@ export function empty(el) {
  * @api public
  */
 export function remove(el) {
-    el = resolve(el);
     if (el.parentNode) {
         el.parentNode.removeChild(el);
     }

@@ -30,7 +30,7 @@ describe('dom/manipulation', () => {
             el.id = 'foo';
             document.body.appendChild(el);
 
-            prepend('#container', '#foo');
+            prepend(container, '#foo');
             expect(container.firstChild).to.equal(el);
         });
 
@@ -58,7 +58,7 @@ describe('dom/manipulation', () => {
             el.id = 'foo';
             document.body.appendChild(el);
 
-            append('#container', '#foo');
+            append(container, '#foo');
             expect(container.lastChild).to.equal(el);
         });
 
@@ -80,16 +80,6 @@ describe('dom/manipulation', () => {
             setText(el, 'foo');
             expect(el.textContent).to.equal('foo');
         });
-
-        it('should support selector strings', () => {
-            const el = document.createElement('div');
-            el.id = 'foo';
-            document.body.appendChild(el);
-
-            setText('#foo', 'bar');
-            expect(el.textContent).to.equal('bar');
-            document.body.removeChild(el);
-        });
     });
 
     describe('clearText', () => {
@@ -101,17 +91,6 @@ describe('dom/manipulation', () => {
             expect(el.textContent).to.equal('foobar');
             clearText(el);
             expect(el.textContent).to.equal('');
-        });
-
-        it('should support selector strings', () => {
-            const el = document.createElement('div');
-            el.id = 'foo';
-            el.appendChild(document.createTextNode('foo'));
-            document.body.appendChild(el);
-
-            clearText('#foo');
-            expect(el.textContent).to.equal('');
-            document.body.removeChild(el);
         });
     });
 
@@ -125,18 +104,6 @@ describe('dom/manipulation', () => {
             empty(el);
             expect(el.childNodes.length).to.equal(0);
         });
-
-        it('should support selector strings', () => {
-            const el = document.createElement('div');
-            el.id = 'foo';
-            el.appendChild(document.createElement('div'));
-            el.appendChild(document.createElement('span'));
-            document.body.appendChild(el);
-
-            empty('#foo');
-            expect(el.childNodes.length).to.equal(0);
-            document.body.removeChild(el);
-        });
     });
 
     describe('remove', () => {
@@ -146,16 +113,6 @@ describe('dom/manipulation', () => {
 
             expect(el.parentNode).to.equal(document.body);
             remove(el);
-            expect(el.parentNode).to.equal(null);
-        });
-
-        it('should support selector strings', () => {
-            const el = document.createElement('div');
-            el.id = 'foo';
-            document.body.appendChild(el);
-
-            expect(el.parentNode).to.equal(document.body);
-            remove('#foo');
             expect(el.parentNode).to.equal(null);
         });
     });
