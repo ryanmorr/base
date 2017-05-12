@@ -8,5 +8,6 @@ import './attributes';
 import './create';
 import './html';
 import './manipulation';
+import './traversal';
 import './matches';
 import './write';

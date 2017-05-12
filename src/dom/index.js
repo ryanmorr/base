@@ -9,5 +9,6 @@ export * from './attributes';
 export * from './create';
 export * from './html';
 export * from './manipulation';
+export * from './traversal';
 export { default as matches } from './matches';
 export { default as write } from './write';
