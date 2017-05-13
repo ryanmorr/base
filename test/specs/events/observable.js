@@ -4,79 +4,89 @@ import { mixin } from '../../../src/lang';
 import { Observable } from '../../../src/events';
 
 describe('events/Observable', () => {
-    it('should support explicity naming custom events for an object', () => {
-        const obj = mixin({}, Observable);
+    describe('addEvents', () => {
+        it('should support explicity naming custom events for an object', () => {
+            const obj = Object.create(Observable);
 
-        expect(obj.addEvents).to.be.a('function');
-        obj.addEvents('foo', 'bar', 'baz');
+            expect(obj.addEvents).to.be.a('function');
+            obj.addEvents('foo', 'bar', 'baz');
 
-        expect(obj.customEvents.foo).to.equal(null);
-        expect(obj.customEvents.bar).to.equal(null);
-        expect(obj.customEvents.baz).to.equal(null);
+            expect(obj.customEvents.foo).to.equal(null);
+            expect(obj.customEvents.bar).to.equal(null);
+            expect(obj.customEvents.baz).to.equal(null);
+        });
     });
 
-    it('should support adding callback functions to custom events', () => {
-        const obj = mixin({}, Observable);
-        obj.addEvents('foo');
+    describe('addListener', () => {
+        it('should support adding callback functions to custom events', () => {
+            const obj = Object.create(Observable);
+            obj.addEvents('foo');
 
-        expect(obj.addListener).to.be.a('function');
-        expect(obj.on).to.be.a('function');
-        expect(obj.on).to.equal(obj.addListener);
+            expect(obj.addListener).to.be.a('function');
+            expect(obj.on).to.be.a('function');
+            expect(obj.on).to.equal(obj.addListener);
 
-        const fn = () => {};
-        obj.on('foo', fn);
+            const fn = () => {};
+            obj.on('foo', fn);
 
-        expect(obj.customEvents.foo[0]).to.equal(fn);
+            expect(obj.customEvents.foo[0]).to.equal(fn);
+        });
     });
 
-    it('should support removing callback functions from custom events', () => {
-        const obj = mixin({}, Observable);
-        obj.addEvents('foo');
+    describe('removeListener', () => {
+        it('should support removing callback functions from custom events', () => {
+            const obj = Object.create(Observable);
+            obj.addEvents('foo');
 
-        expect(obj.removeListener).to.be.a('function');
-        expect(obj.off).to.be.a('function');
-        expect(obj.off).to.equal(obj.removeListener);
+            expect(obj.removeListener).to.be.a('function');
+            expect(obj.off).to.be.a('function');
+            expect(obj.off).to.equal(obj.removeListener);
 
-        const fn = () => {};
-        obj.on('foo', fn);
-        expect(obj.customEvents.foo[0]).to.equal(fn);
+            const fn = () => {};
+            obj.on('foo', fn);
+            expect(obj.customEvents.foo[0]).to.equal(fn);
 
-        obj.off('foo', fn);
-        expect(obj.customEvents.foo[0]).to.not.exist;
+            obj.off('foo', fn);
+            expect(obj.customEvents.foo[0]).to.not.exist;
+        });
     });
 
-    it('should support clearing all callback functions from custom events', () => {
-        const obj = mixin({}, Observable);
-        obj.addEvents('foo', 'bar');
+    describe('clearListeners', () => {
+        it('should support clearing all callback functions from custom events', () => {
+            const obj = Object.create(Observable);
+            obj.addEvents('foo', 'bar');
 
-        expect(obj.clearListeners).to.be.a('function');
+            expect(obj.clearListeners).to.be.a('function');
 
-        obj.on('foo', () => {});
-        obj.on('foo', () => {});
-        obj.on('bar', () => {});
-        obj.on('bar', () => {});
+            obj.on('foo', () => {});
+            obj.on('foo', () => {});
+            obj.on('bar', () => {});
+            obj.on('bar', () => {});
 
-        expect(obj.customEvents.foo.length).to.equal(2);
-        expect(obj.customEvents.bar.length).to.equal(2);
+            expect(obj.customEvents.foo.length).to.equal(2);
+            expect(obj.customEvents.bar.length).to.equal(2);
 
-        obj.clearListeners();
+            obj.clearListeners();
 
-        expect(obj.customEvents.foo.length).to.equal(0);
-        expect(obj.customEvents.bar.length).to.equal(0);
+            expect(obj.customEvents.foo.length).to.equal(0);
+            expect(obj.customEvents.bar.length).to.equal(0);
+        });
     });
 
-    it('should support dispatching a custom event and passing the provided arguments', () => {
-        const obj = mixin({}, Observable);
-        obj.addEvents('foo');
+    describe('dispatchEvent', () => {
+        it('should support dispatching a custom event and passing the provided arguments', () => {
+            const obj = Object.create(Observable);
+            obj.addEvents('foo');
 
-        expect(obj.dispatchEvent).to.be.a('function');
+            expect(obj.dispatchEvent).to.be.a('function');
 
-        const fn = sinon.spy();
-        obj.on('foo', fn);
+            const fn = sinon.spy();
+            obj.on('foo', fn);
 
-        obj.dispatchEvent('foo', 1, 2, 3);
+            obj.dispatchEvent('foo', 1, 2, 3);
 
-        expect(fn.called).to.equal(true);
-        expect(fn.calledWith(1, 2, 3)).to.equal(true);
+            expect(fn.called).to.equal(true);
+            expect(fn.calledWith(1, 2, 3)).to.equal(true);
+        });
     });
 });
