@@ -10,6 +10,8 @@ import * as string from './string';
 import * as css from './css';
 import * as dom from './dom';
 import * as events from './events';
+import * as async from './async';
+import * as env from './env';
 
 /**
  * Export module namespaces individually
@@ -23,7 +25,9 @@ export {
     string,
     css,
     dom,
-    events
+    events,
+    async,
+    env
 };
 
 /**
@@ -38,7 +42,9 @@ const base = {
     string,
     css,
     dom,
-    events
+    events,
+    async,
+    env
 };
 
 /**
