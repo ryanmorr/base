@@ -1,6 +1,5 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { mixin } from '../../../src/lang';
 import { Observable } from '../../../src/events';
 
 describe('events/Observable', () => {
