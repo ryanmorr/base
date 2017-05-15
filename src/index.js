@@ -1,7 +1,15 @@
 /**
  * Import polyfills
  */
-import 'es6-promise/auto';
+import Promise from 'promise-polyfill';
+
+/**
+ * Polyfill `Promise` on the global object
+ * if it does not exist
+ */
+if (!window.Promise) {
+    window.Promise = Promise;
+}
 
 /**
  * Import modules
