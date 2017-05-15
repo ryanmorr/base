@@ -1,5 +1,7 @@
 import { expect } from 'chai';
-import { port } from '../../../src/lang';
+import { lang } from '../../../src';
+
+const { port } = lang;
 
 describe('lang/port', () => {
     it('should be able to port an object method to be used standalone', () => {

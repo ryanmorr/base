@@ -1,5 +1,7 @@
 import { expect } from 'chai';
-import { hashmap } from '../../../src/object';
+import { object } from '../../../src';
+
+const { hashmap } = object;
 
 describe('object/hashmap', () => {
     it('should be an object', () => {

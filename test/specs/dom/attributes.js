@@ -1,5 +1,7 @@
 import { expect } from 'chai';
-import { getAttribute, setAttribute, removeAttribute } from '../../../src/dom';
+import { dom } from '../../../src';
+
+const { getAttribute, setAttribute, removeAttribute } = dom;
 
 describe('dom/attributes', () => {
     const el = document.createElement('div');

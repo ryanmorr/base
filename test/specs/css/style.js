@@ -1,5 +1,7 @@
 import { expect } from 'chai';
-import { getStyle, setStyle } from '../../../src/css';
+import { css } from '../../../src';
+
+const { getStyle, setStyle } = css;
 
 describe('css/style', () => {
     const el = document.createElement('div');

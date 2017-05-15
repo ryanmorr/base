@@ -2,7 +2,9 @@
 
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { BaseObject } from '../../../src/lang';
+import { lang } from '../../../src';
+
+const { BaseObject } = lang;
 
 // Decalre example class that inherits from `BaseObject`
 class ExampleObject extends BaseObject {}

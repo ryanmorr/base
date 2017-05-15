@@ -1,5 +1,7 @@
 import { expect } from 'chai';
-import { uid } from '../../../src/lang';
+import { lang } from '../../../src';
+
+const { uid } = lang;
 
 describe('lang/uid', () => {
     it('should generate a unique ID for every invocation', () => {

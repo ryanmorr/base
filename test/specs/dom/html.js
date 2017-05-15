@@ -1,5 +1,7 @@
 import { expect } from 'chai';
-import { isHTML, toHTML, toFragment } from '../../../src/dom';
+import { dom } from '../../../src';
+
+const { isHTML, toHTML, toFragment } = dom;
 
 describe('dom/html', () => {
     describe('isHTML', () => {

@@ -1,5 +1,7 @@
 import { expect } from 'chai';
-import { getName } from '../../../src/lang';
+import { lang } from '../../../src';
+
+const { getName } = lang;
 
 describe('lang/get-name', () => {
     it('should identify null and undefined', () => {

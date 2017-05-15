@@ -1,6 +1,8 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { Observable } from '../../../src/events';
+import { events } from '../../../src';
+
+const { Observable } = events;
 
 describe('events/Observable', () => {
     describe('addEvents', () => {

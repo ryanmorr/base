@@ -1,5 +1,7 @@
 import { expect } from 'chai';
-import { getClass } from '../../../src/lang';
+import { lang } from '../../../src';
+
+const { getClass } = lang;
 
 describe('lang/getClass', () => {
     it('should return the internal [[Class]] of an object without the cruft by default', () => {

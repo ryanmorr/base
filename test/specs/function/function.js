@@ -1,6 +1,8 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { curry, partial, constant, cache, protect, compose, factory } from '../../../src/function';
+import { func } from '../../../src';
+
+const { curry, partial, constant, cache, protect, compose, factory } = func;
 
 describe('function/function', () => {
     describe('curry', () => {

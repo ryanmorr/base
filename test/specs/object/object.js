@@ -1,5 +1,7 @@
 import { expect } from 'chai';
-import {
+import { object } from '../../../src';
+
+const {
     enumerate,
     merge,
     filter,
@@ -13,7 +15,7 @@ import {
     removeValues,
     clear,
     entries
-} from '../../../src/object';
+} = object;
 
 describe('object/object', () => {
     describe('enumerate', () => {

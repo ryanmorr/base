@@ -1,5 +1,7 @@
 import { expect } from 'chai';
-import { mixin } from '../../../src/lang';
+import { lang } from '../../../src';
+
+const { mixin } = lang;
 
 describe('lang/mixin', () => {
     let assign, undef;

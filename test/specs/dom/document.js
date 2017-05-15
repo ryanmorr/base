@@ -1,5 +1,7 @@
 import { expect } from 'chai';
-import {
+import { dom } from '../../../src';
+
+const {
     doc,
     documentElement,
     head,
@@ -14,7 +16,7 @@ import {
     getDocumentScrollTop,
     setDocumentScroll,
     isInDocument
-} from '../../../src/dom';
+} = dom;
 
 describe('dom/document', () => {
     const document = window.document;

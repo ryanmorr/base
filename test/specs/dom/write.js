@@ -1,6 +1,8 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { write } from '../../../src/dom';
+import { dom } from '../../../src';
+
+const { write } = dom;
 
 // Polyfill `requestAnimationFrame` and 'cancelAnimationFrame'
 // for PhantomJS

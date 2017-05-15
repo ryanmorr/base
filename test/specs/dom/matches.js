@@ -1,5 +1,7 @@
 import { expect } from 'chai';
-import { matches } from '../../../src/dom';
+import { dom } from '../../../src';
+
+const { matches } = dom;
 
 describe('dom/matches', () => {
     const container = document.createElement('div');

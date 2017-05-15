@@ -1,5 +1,7 @@
 import { expect } from 'chai';
-import { createHTML, createElement } from '../../../src/dom';
+import { dom } from '../../../src';
+
+const { createHTML, createElement } = dom;
 
 describe('dom/create', () => {
     describe('createHTML', () => {

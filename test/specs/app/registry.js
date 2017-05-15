@@ -1,6 +1,8 @@
 import { expect } from 'chai';
-import { registry } from '../../../src/app';
-import { BaseObject } from '../../../src/lang';
+import { app, lang } from '../../../src';
+
+const { registry } = app;
+const { BaseObject } = lang;
 
 describe('app/registry', () => {
     it('should support adding an object to the registry', () => {

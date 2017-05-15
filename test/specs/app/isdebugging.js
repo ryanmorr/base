@@ -1,5 +1,7 @@
 import { expect } from 'chai';
-import { config, isDebugging } from '../../../src/app';
+import { app } from '../../../src';
+
+const { config, isDebugging } = app;
 
 describe('app/isDebugging', () => {
     it('should return false by default', () => {

@@ -1,5 +1,7 @@
 import { expect } from 'chai';
-import { config } from '../../../src/app';
+import { app } from '../../../src';
+
+const { config } = app;
 
 describe('app/config', () => {
     it('should support setting and getting a value', () => {

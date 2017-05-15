@@ -1,6 +1,8 @@
 import { expect } from 'chai';
 import simulant from 'simulant';
-import { delegate } from '../../../src/events';
+import { events } from '../../../src';
+
+const { delegate } = events;
 
 describe('events/delegate', () => {
     it('should delegate an event handler to a child element matching a CSS selector', (done) => {

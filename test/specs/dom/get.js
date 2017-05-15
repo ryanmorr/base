@@ -1,6 +1,8 @@
 import { expect } from 'chai';
-import { resolve, find, query } from '../../../src/dom';
-import { toArray } from '../../../src/array';
+import { dom, array } from '../../../src';
+
+const { toArray } = array;
+const { resolve, find, query } = dom;
 
 describe('dom/get', () => {
     const el = document.createElement('div');

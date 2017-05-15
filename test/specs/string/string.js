@@ -1,5 +1,7 @@
 import { expect } from 'chai';
-import { toCamelCase, toKebabCase, substitute, isEmpty, stripNewlines, canonicalizeNewlines, collapseWhitespace } from '../../../src/string';
+import { string } from '../../../src';
+
+const { toCamelCase, toKebabCase, substitute, isEmpty, stripNewlines, canonicalizeNewlines, collapseWhitespace } = string;
 
 describe('string/string', () => {
     describe('toCamelCase', () => {
@@ -29,7 +31,7 @@ describe('string/string', () => {
             expect(isEmpty(' \t\t\n\xa0   ')).to.equal(true);
         });
 
-        it('should return false if a string is not empty or does not contains whitespace', () => {
+        it('should return false if a string is not empty or does not contain whitespace', () => {
             expect(isEmpty(' abc \t\xa0')).to.equal(false);
             expect(isEmpty(' a b c \t')).to.equal(false);
             expect(isEmpty(';')).to.equal(false);

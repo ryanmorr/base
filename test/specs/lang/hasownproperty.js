@@ -1,5 +1,7 @@
 import { expect } from 'chai';
-import { hasOwnProperty } from '../../../src/lang';
+import { lang } from '../../../src';
+
+const { hasOwnProperty } = lang;
 
 describe('lang/hasOwnProperty', () => {
     it('should return true for direct properties', () => {

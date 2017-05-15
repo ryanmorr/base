@@ -1,6 +1,8 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
-import {
+import { array } from '../../../src';
+
+const {
     toArray,
     each,
     eachRight,
@@ -24,7 +26,7 @@ import {
     find,
     findIndex,
     clear
-} from '../../../src/array';
+} = array;
 
 describe('array/array', () => {
     describe('toArray', () => {

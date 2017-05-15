@@ -1,5 +1,7 @@
 import { expect } from 'chai';
-import { inherit } from '../../../src/lang';
+import { lang } from '../../../src';
+
+const { inherit } = lang;
 
 describe('lang/inherit', () => {
     it('should be able to inherit the properties of one function\'s prototype to another function\s prototype', () => {

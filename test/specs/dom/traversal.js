@@ -1,5 +1,7 @@
 import { expect } from 'chai';
-import { closest } from '../../../src/dom';
+import { dom } from '../../../src';
+
+const { closest } = dom;
 
 describe('dom/traversal', () => {
     const container = document.createElement('div');

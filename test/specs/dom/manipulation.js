@@ -1,5 +1,7 @@
 import { expect } from 'chai';
-import { prepend, append, setText, clearText, empty, remove } from '../../../src/dom';
+import { dom } from '../../../src';
+
+const { prepend, append, setText, clearText, empty, remove } = dom;
 
 describe('dom/manipulation', () => {
     const container = document.createElement('div');

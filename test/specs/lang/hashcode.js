@@ -1,5 +1,7 @@
 import { expect } from 'chai';
-import { hashCode } from '../../../src/lang';
+import { lang } from '../../../src';
+
+const { hashCode } = lang;
 
 // Validate that a hash code is a number,
 // finite, and an integer

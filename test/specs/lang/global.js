@@ -1,5 +1,7 @@
 import { expect } from 'chai';
-import { global } from '../../../src/lang';
+import { lang } from '../../../src';
+
+const { global } = lang;
 
 describe('lang/global', () => {
     it('should be the global object', () => {

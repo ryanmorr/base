@@ -1,7 +1,9 @@
 /* eslint-disable no-new-wrappers */
 
 import { expect } from 'chai';
-import { isArray, isBoolean, isDate, isError, isFunction, isNode, isNull, isNumber, isObject, isRegExp, isString, isUndefined, type } from '../../../src/lang';
+import { lang } from '../../../src';
+
+const { isArray, isBoolean, isDate, isError, isFunction, isNode, isNull, isNumber, isObject, isRegExp, isString, isUndefined, type } = lang;
 
 describe('lang/type', () => {
     let iframe;
