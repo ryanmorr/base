@@ -4,14 +4,16 @@ import { dom } from '../../../src';
 
 const { write } = dom;
 
-// Polyfill `requestAnimationFrame` and 'cancelAnimationFrame'
-// for PhantomJS
-window.requestAnimationFrame = window.requestAnimationFrame
-    || window.webkitRequestAnimationFrame
-    || function requestAnimationFrame(cb) { return window.setTimeout(cb, 1000 / 60); };
+// Polyfill `requestAnimationFrame`
+window.requestAnimationFrame = window.requestAnimationFrame || window.webkitRequestAnimationFrame || ((cb) => setTimeout(cb, 1000 / 60));
 
-window.cancelAnimationFrame = window.cancelAnimationFrame
-    || function cancelAnimationFrame(id) { window.clearTimeout(id); };
+// Polyfill `cancelAnimationFrame`
+window.cancelAnimationFrame = window.cancelAnimationFrame || window.webkitCancelAnimationFrame || ((id) => clearTimeout(id));
+
+// Wait to execute a function
+function timeout(fn) {
+    setTimeout(fn, 100);
+}
 
 describe('dom/write', () => {
     it('should schedule a frame to write to the DOM', (done) => {
@@ -19,7 +21,7 @@ describe('dom/write', () => {
         const spy = sinon.spy(window, 'requestAnimationFrame');
 
         write(fn);
-        requestAnimationFrame(() => {
+        timeout(() => {
             expect(fn.called).to.equal(true);
             expect(spy.called).to.equal(true);
             spy.restore();
@@ -44,7 +46,7 @@ describe('dom/write', () => {
         requestSpy.restore();
         cancelSpy.restore();
 
-        requestAnimationFrame(() => {
+        timeout(() => {
             expect(fn.called).to.equal(true);
             expect(fn2.called).to.equal(true);
             expect(requestSpy.callCount).to.equal(2);
