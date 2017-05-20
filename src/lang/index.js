@@ -13,3 +13,4 @@ export { default as port } from './port';
 export { default as uid } from './uid';
 export { default as hashCode } from './hashcode';
 export { default as BaseObject } from './baseobject';
+export { default as prefixed } from './prefixed';

@@ -12,3 +12,4 @@ import './port';
 import './uid';
 import './hashcode';
 import './baseobject';
+import './prefixed';
