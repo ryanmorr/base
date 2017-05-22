@@ -16,7 +16,7 @@ describe('lang/prefixed', () => {
             'oMatchesSelector',
             'msMatchesSelector'
         ]);
-        
+
         expect(matches).to.be.a('function');
         expect(matches('.foo')).to.equal(true);
     });
@@ -29,7 +29,7 @@ describe('lang/prefixed', () => {
             'foo',
             'bar'
         ]);
-        
+
         expect(matches).to.equal(null);
     });
 });
