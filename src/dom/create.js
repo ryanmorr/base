@@ -3,7 +3,6 @@
  */
 import { doc, setProperty } from './index';
 import { isArray, type } from '../lang';
-import { each } from '../array';
 import { enumerate } from '../object';
 
 /**
@@ -43,12 +42,12 @@ const selfClosingTags = [
  * Create an HTML markup string
  *
  * @param {String} tag
- * @param {Object} props (optional)
- * @param {Array|String} children (optional)
+ * @param {Object|Null} props (optional)
+ * @param {...Array|String} children (optional)
  * @return {String}
  * @api public
  */
-export function createHTML(tag, props = null, children = null) {
+export function createHTML(tag, props = null, ...children) {
     const html = ['<' + tag];
     enumerate(props, (prop, value) => {
         html.push(` ${prop}="${value}"`);
@@ -57,15 +56,13 @@ export function createHTML(tag, props = null, children = null) {
         html.push(' />');
     } else {
         html.push('>');
-        if (children) {
-            if (isArray(children)) {
-                each(children, (child) => {
-                    html.push(createHTML(...child));
-                });
+        children.forEach((child) => {
+            if (isArray(child)) {
+                html.push(createHTML(...child));
             } else {
-                html.push(children);
+                html.push(child);
             }
-        }
+        });
         html.push('</' + tag + '>');
     }
     return html.join('');
@@ -75,34 +72,30 @@ export function createHTML(tag, props = null, children = null) {
  * Create a DOM element
  *
  * @param {String} tag
- * @param {Object} props (optional)
- * @param {String|Array|Node|NodeList} children (optional)
+ * @param {Object|Null} props (optional)
+ * @param {...String|Array|TextNode|Element} children (optional)
  * @return {Element}
  * @api public
  */
-export function createElement(tag, props = null, children = null) {
+export function createElement(tag, props = null, ...children) {
     const el = doc.createElement(tag);
     if (props) {
         enumerate(props, (key, value) => {
             setProperty(el, key, value);
         });
     }
-    if (children) {
-        switch (type(children)) {
+    children.forEach((child) => {
+        switch (type(child)) {
             case 'element':
             case 'textnode':
-                el.appendChild(children);
+                el.appendChild(child);
                 break;
             case 'array':
-                each(children, (child) => {
-                    el.appendChild(
-                        isArray(child) ? createElement(...child) : child
-                    );
-                });
+                el.appendChild(isArray(child) ? createElement(...child) : child);
                 break;
             default:
-                el.appendChild(doc.createTextNode(children));
+                el.appendChild(doc.createTextNode(child));
         }
-    }
+    });
     return el;
 }

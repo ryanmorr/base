@@ -23,12 +23,12 @@ describe('dom/create', () => {
             expect(createHTML('div', null, '<i></i>')).to.equal('<div><i></i></div>');
         });
 
-        it('should support composable child nodes as an array', () => {
-            const html = createHTML('div', null, [
+        it('should support composable child nodes as additional arguments', () => {
+            const html = createHTML('div', null,
                 ['i', {id: 'foo'}],
                 ['span', {class: 'bar'}],
                 ['em']
-            ]);
+            );
             expect(html).to.equal('<div><i id="foo"></i><span class="bar"></span><em></em></div>');
         });
     });
@@ -56,20 +56,20 @@ describe('dom/create', () => {
             expect(el2.firstChild).to.equal(text);
         });
 
-        it('should support child nodes by providing an array of DOM nodes', () => {
+        it('should support child nodes by providing DOM nodes as additional arguments', () => {
             const i = document.createElement('i');
             const span = document.createElement('span');
-            const el = createElement('div', null, [i, span]);
+            const el = createElement('div', null, i, span);
             expect(el.firstChild).to.equal(i);
             expect(el.lastChild).to.equal(span);
         });
 
-        it('should support composable child nodes as an array', () => {
-            const el = createElement('div', null, [
+        it('should support composable child nodes as additional arguments', () => {
+            const el = createElement('div', null,
                 ['i', {id: 'foo'}],
                 ['span', {class: 'bar'}],
                 ['em']
-            ]);
+            );
             const children = el.childNodes;
             const child1 = children[0];
             const child2 = children[1];
