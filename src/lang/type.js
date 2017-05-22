@@ -4,11 +4,6 @@
 import { getClass } from './index';
 
 /**
- * Regexp for DOM elements
- */
-const elementRe = /^HTML\w+Element$/;
-
-/**
  * Is the object an array?
  *
  * @param {*} obj
@@ -193,7 +188,7 @@ export function type(obj) {
             }
             return 'object';
         default:
-            if (elementRe.test(type)) {
+            if (obj.nodeName && obj.nodeType && obj.nodeType === 1) {
                 return 'element';
             }
     }
