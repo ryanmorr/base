@@ -2,25 +2,20 @@
  * Import dependencies
  */
 import { documentElement } from './index';
+import { prefix } from '../lang';
 
 /**
  * Use feature testing to obtain
  * the proper `matches` method
  */
-const method = [
+const method = prefix(documentElement, [
     'matches',
     'matchesSelector',
     'webkitMatchesSelector',
     'mozMatchesSelector',
     'oMatchesSelector',
     'msMatchesSelector'
-].reduce((name, current) => {
-    if (name) {
-        return name;
-    }
-    return current in documentElement ? current : name;
-}, null);
-
+]);
 
 /**
  * Does an element match a CSS
